@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="MygaMain">
+      <HintPath>..\MygaMain\bin\Release\netcoreapp3.1\MygaMain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
