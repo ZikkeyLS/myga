@@ -25,7 +25,6 @@ public static class Socket
             stream.Write(data, 0, data.Length);
             Debug.Log($"Sent: {message}");
 
-
             Int32 bytes = stream.Read(data, 0, data.Length);
             Package packageGet = new Package(data);
             packageGet.reader.ReadInt32();
