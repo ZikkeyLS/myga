@@ -8,8 +8,6 @@ MygaClient/ProjectSettings/
 MygaClient/Assets/SideAssets/
 *.meta
 *.unity
-MygaMain/bin/
-MygaMain/obj/
-MygaMain/Properties/
+*.cache
 MygaServer/bin/
 MygaServer/obj/

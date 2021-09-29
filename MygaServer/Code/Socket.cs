@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace MygaServer
 {
@@ -12,6 +10,9 @@ namespace MygaServer
         private UdpClient udpServer;
         private static TcpClient client;
 
+        public Socket() { }
+        public Socket(string ip, int port, bool start = true) { Run(ip, port, start); }
+
         public void Run(string ip, int port, bool start = true)
         {
             if (!start)
@@ -19,6 +20,7 @@ namespace MygaServer
 
             tcpServer = new TcpListener(IPAddress.Parse(ip), port);
             tcpServer.Start();
+            ServerEventSystem.StartEvent(ServerEvent.ServerStarted);
 
             try
             {
@@ -37,7 +39,7 @@ namespace MygaServer
             }
         }
 
-        public  void DoBeginAcceptTcpClient(TcpListener listener)
+        public void DoBeginAcceptTcpClient(TcpListener listener)
         {
 
             listener.BeginAcceptTcpClient(
@@ -50,35 +52,16 @@ namespace MygaServer
             TcpListener listener = (TcpListener)ar.AsyncState;
 
             TcpClient client = listener.EndAcceptTcpClient(ar);
-            Server.StartEvent("ClientConnected");
             OnClientConnection(client);
         }
 
-        private void OnClientConnection(TcpClient client)
+        private void OnClientConnection(TcpClient tcpClient)
         {
-
-            Byte[] bytes = new Byte[256];
-            String data = null;
-
-            NetworkStream stream = client.GetStream();
-
-            int i;
-
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-            {
-
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", data);
-
-                data = data.ToUpper();
-
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                stream.Write(msg, 0, msg.Length);
-                Console.WriteLine("Sent: {0}", data);
-            }
-
-            client.Close();
+            Client client = new Client(tcpClient);
+            Server.clients.Add(client);
+            Package package = new Package(0);
+            package.writer.Write("Hello from server!");
+            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
         }
     }
 }

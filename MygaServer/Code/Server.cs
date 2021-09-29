@@ -7,38 +7,36 @@ namespace MygaServer
     {
         public static int MaxPlayers { get; private set; } = 1;
         public static int CurrentPlayers { get; private set; } = 0;
+        public static string Ip { get; private set; } = "";
+        public static int Port { get; private set; } = 0;
+
+        public static HashSet<Client> clients = new HashSet<Client>();
         public static bool stop = false;
-        private static Socket socket = new Socket();
-
-        public static Dictionary<string, Action> serverEvents = new Dictionary<string, Action>()
-        {
-            { "ClientConnected", () => { } },
-            { "ClientDisconnected", () => { } },
-            { "DataHandled",() => { } }
-        };
-
-        public static void On(string eventName, Action action)
-        {
-            serverEvents[eventName] = action;
-        }
-
-        public static void StartEvent(string eventName)
-        {
-            serverEvents[eventName]();
-        }
+        private static Socket socket;
 
         public static void Start(string ip, int port, int maxPlayers)
         {
+            Ip = ip;
+            Port = port;
             MaxPlayers = maxPlayers;
-            ConnectEvents();
-            socket.Run(ip, port);
+            ConnectBasicEvents();
+            socket = new Socket(ip, port);
         }
 
-        private static void ConnectEvents()
+        private static void ConnectBasicEvents()
         {
-            On("ClientConnected", () => {
+
+            ServerEventSystem.On(ServerEvent.ServerStarted, (eventID) => {
+                Console.WriteLine($"Server started on: {Ip}:{Port} with maximum amount of players: {MaxPlayers}!");
+            });
+
+            ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
                 CurrentPlayers++;
                 Console.WriteLine("Player connected: " + CurrentPlayers);
+            });
+
+            ServerEventSystem.On(ServerEvent.DataHandled, (eventID) => {
+                
             });
         }
     }

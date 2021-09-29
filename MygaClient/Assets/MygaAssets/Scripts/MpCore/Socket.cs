@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaClient;
+using System;
 using System.Net.Sockets;
 using UnityEngine;
 
@@ -11,22 +12,24 @@ public static class Socket
     {
         try
         {
-            string message = "Test";
+            string message = "Hi server";
             TcpClient client = new TcpClient(ip, port);
-
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
             NetworkStream stream = client.GetStream();
 
-            stream.Write(data, 0, data.Length);
+            byte[] data = new byte[4096];
 
+            Package package = new Package(0);
+            package.writer.Write(message);
+            data = package.buffer;
+            stream.Write(data, 0, data.Length);
             Debug.Log($"Sent: {message}");
 
-            data = new Byte[256];
 
             Int32 bytes = stream.Read(data, 0, data.Length);
-            String responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            Debug.Log($"Recieved: {responseData}");
+            Package packageGet = new Package(data);
+            packageGet.reader.ReadInt32();
+            Debug.Log($"Recieved: {packageGet.reader.ReadString()}");
 
             stream.Close();
             client.Close();

@@ -6,10 +6,4 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="MygaMain">
-      <HintPath>..\MygaMain\bin\Release\netcoreapp3.1\MygaMain.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
