@@ -5,42 +5,85 @@ using UnityEngine;
 
 public static class Socket
 {
-    private static TcpClient tcpClient;
     private static UdpClient udpClient;
 
-    public static void Connect(string ip, int port)
+    public static void Connect(string _ip, int _port)
     {
-        try
+        TcpSocket.Connect(_ip, _port);
+    }
+
+    private static class TcpSocket
+    {
+        public static TcpClient client;
+        public static NetworkStream stream;
+        public static byte[] data = new byte[4096];
+
+        public static void Connect(string _ip, int _port)
         {
-            string message = "Hi server";
-            TcpClient client = new TcpClient(ip, port);
+            client = new TcpClient(_ip, _port);
+            stream = client.GetStream();
 
-            NetworkStream stream = client.GetStream();
+            try
+            {
+                stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
+            }
+            catch (ArgumentNullException e)
+            {
+                Debug.Log($"ArgumentNullException: {e}");
+            }
+            catch (SocketException e)
+            {
+                Debug.Log($"SocketException: {e}");
+                Disconnect();
+            }
+        }
 
-            byte[] data = new byte[4096];
+        private static void RecieveCallback(IAsyncResult _result)
+        {
+            try
+            {
+                int _byteLength = stream.EndRead(_result);
+                if (_byteLength <= 0)
+                {
+                    Disconnect();
+                    return;
+                }
 
-            Package package = new Package(0);
-            package.writer.Write(message);
-            data = package.buffer;
-            stream.Write(data, 0, data.Length);
-            Debug.Log($"Sent: {message}");
+                Package package = new Package(data);
+                package.reader.ReadInt32();
 
+                Debug.Log(package.reader.ReadString());
 
-            Int32 bytes = stream.Read(data, 0, data.Length);
-            Package packageGet = new Package(data);
-            packageGet.reader.ReadInt32();
-            Debug.Log($"Recieved: {packageGet.reader.ReadString()}");
+                Package package1 = new Package(0);
+                package1.writer.Write("hi server");
+                Send(package1);
 
-            stream.Close();
+                stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
+            }
+            catch (Exception _ex)
+            {
+               Debug.Log($"Error receiving TCP data: {_ex}");
+                Disconnect();
+            }
+        }
+
+        public static void Disconnect()
+        {
             client.Close();
+            client.Dispose();
+            stream.Close();
+            stream.Dispose();
         }
-        catch (ArgumentNullException e)
+
+        public static void Send(Package package)
         {
-            Debug.Log($"ArgumentNullException: {e}");
+            byte[] data = package.buffer;
+            stream.Write(data, 0, data.Length);
         }
-        catch (SocketException e)
-        {
-            Debug.Log($"SocketException: {e}");
-        }
+    }
+
+    private class UdpSocket
+    {
+
     }
 }
