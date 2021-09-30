@@ -42,8 +42,8 @@ namespace MygaServer
 
                 ServerEventSystem.StartEvent(ServerEvent.DataHandled);
 
-                //Package package = Package.Deserialize(data);
-               // Console.WriteLine(package.id);
+                Package package = new Package(data);
+                Console.WriteLine(package.reader.ReadInt32());
 
                 tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
             }
@@ -59,7 +59,7 @@ namespace MygaServer
         public void SendData(Package package)
         {
             byte[] bytes = package.buffer;
-            tcpStream.BeginWrite(bytes, 0, bytes.Length, null, null);
+            tcpStream.Write(bytes, 0, bytes.Length);
         }
     }
 }

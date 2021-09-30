@@ -51,8 +51,10 @@ public static class Socket
             Package package = new Package(data);
             Debug.Log(package.id);
 
-            stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
+            Package backPackage = new Package(5);
+            SendData(backPackage);
 
+            stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
         public static void Disconnect()
@@ -63,13 +65,11 @@ public static class Socket
             stream.Dispose();
         }
 
-        /*
         public static void SendData(Package package)
         {
-            byte[] data = package.Serialize();
+            byte[] data = package.buffer;
             stream.Write(data, 0, data.Length);
         }
-        */
     }
 
     private class UdpSocket
