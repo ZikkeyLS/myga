@@ -24,10 +24,7 @@ namespace MygaServer
 
             try
             {
-                while (true)
-                {
-                    DoBeginAcceptTcpClient(tcpServer);
-                }
+                AcceptTcpClient();
             }
             catch (SocketException e)
             {
@@ -39,28 +36,16 @@ namespace MygaServer
             }
         }
 
-        public void DoBeginAcceptTcpClient(TcpListener listener)
+        public void AcceptTcpClient()
         {
-
-            listener.BeginAcceptTcpClient(
-                new AsyncCallback(DoAcceptTcpClientCallback),
-                listener);
-        }
-
-        public void DoAcceptTcpClientCallback(IAsyncResult ar)
-        {
-            TcpListener listener = (TcpListener)ar.AsyncState;
-
-            TcpClient client = listener.EndAcceptTcpClient(ar);
+            TcpClient client = tcpServer.AcceptTcpClient();
             OnClientConnection(client);
+            AcceptTcpClient();
         }
-
         private void OnClientConnection(TcpClient tcpClient)
         {
             Client client = new Client(tcpClient);
             Server.clients.Add(client);
-            Package package = new Package(0);
-            package.writer.Write("Hello from server!");
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
         }
     }

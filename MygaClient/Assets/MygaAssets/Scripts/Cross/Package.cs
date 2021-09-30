@@ -4,6 +4,7 @@ namespace MygaClient
 {
     public class Package
     {
+        public int id { get; private set; } = 0;
         public byte[] buffer { get; private set; } = new byte[4096];
         public MemoryStream stream { get; private set; }
         public BinaryWriter writer { get; private set; }
@@ -15,6 +16,7 @@ namespace MygaClient
             writer = new BinaryWriter(stream);
             reader = new BinaryReader(stream);
 
+            this.id = id;
             writer.Write(id);
         }
 
@@ -24,6 +26,16 @@ namespace MygaClient
             stream = new MemoryStream(buffer);
             writer = new BinaryWriter(stream);
             reader = new BinaryReader(stream);
+
+            id = reader.ReadInt32();
+        }
+    }
+
+    public static class PackageAddon
+    {
+        public static Package Copy(this Package package)
+        {
+            return new Package(package.buffer);
         }
     }
 }

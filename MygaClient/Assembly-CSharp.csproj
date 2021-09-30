@@ -52,15 +52,8 @@
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2020.3.12f1</UnityVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-    <Analyzer Include="Assets\MsgPack\Plugins\System.Threading.Tasks.Extensions.dll" />
-    <Analyzer Include="Assets\MsgPack\Plugins\System.Runtime.CompilerServices.Unsafe.dll" />
-    <Analyzer Include="Assets\MsgPack\Plugins\System.Buffers.dll" />
-    <Analyzer Include="Assets\MsgPack\Plugins\System.Memory.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MygaAssets\Scripts\Cross\Package.cs" />
@@ -68,12 +61,6 @@
     <Compile Include="Assets\MygaAssets\Scripts\Cross\Formatter.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Socket.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\MsgPack\Plugins\System.Buffers.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Runtime.CompilerServices.Unsafe.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Threading.Tasks.Extensions.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Memory.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -300,18 +287,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>Assets\MsgPack\Plugins\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Buffers">
-      <HintPath>Assets\MsgPack\Plugins\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>Assets\MsgPack\Plugins\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>Assets\MsgPack\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -679,25 +654,17 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MessagePack.Annotations.csproj">
-      <Project>{BF1B18B6-9FD5-7927-8015-9A5F25A6210D}</Project>
-      <Name>MessagePack.Annotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="MessagePack.csproj">
-      <Project>{7C6A6788-F4A1-8D58-3930-F9D9886A30E0}</Project>
-      <Name>MessagePack</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
