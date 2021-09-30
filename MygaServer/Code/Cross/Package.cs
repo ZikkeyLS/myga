@@ -1,16 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace MygaServer
 {
     public class Package
     {
         public int id { get; private set; } = 0;
+        public string packageType { get; private set; }
         public byte[] buffer { get; private set; } = new byte[4096];
         public MemoryStream stream { get; private set; }
         public BinaryWriter writer { get; private set; }
         public BinaryReader reader { get; private set; }
 
-        public Package(int id)
+        public Package(int id, string typeName = "Package")
         {
             stream = new MemoryStream(buffer);
             writer = new BinaryWriter(stream);
@@ -18,6 +20,8 @@ namespace MygaServer
 
             this.id = id;
             writer.Write(id);
+            this.packageType = typeName;
+            writer.Write(typeName);
         }
 
         public Package(byte[] bytes)
@@ -28,19 +32,7 @@ namespace MygaServer
             reader = new BinaryReader(stream);
 
             id = reader.ReadInt32();
-        }
-
-        public void WriteUO(object obj)
-        {
-            byte[] data = Formatter.ObjectToByteArray(obj);
-            writer.Write(data.Length);
-            writer.Write(data);
-        }
-
-        public object ReadUO()
-        {
-            byte[] data = reader.ReadBytes(reader.ReadInt32());
-            return Formatter.ByteArrayToObject(data);
+            packageType = reader.ReadString();
         }
 
         public void Clear()
@@ -49,6 +41,11 @@ namespace MygaServer
             stream = null;
             writer = null;
             reader = null;
+        }
+
+        public bool typeOf(string packageType)
+        {
+            return this.packageType == packageType;
         }
     }
 

@@ -42,8 +42,16 @@ namespace MygaServer
 
                 ServerEventSystem.StartEvent(ServerEvent.DataHandled);
 
-                Package package = new Package(data);
-                Console.WriteLine(package.id);
+                Package checkPackage = new Package(data);
+                if (checkPackage.typeOf("PlayerLoginData"))
+                {
+                    PlayerLoginData loginData = new PlayerLoginData(checkPackage.buffer);
+                    Console.WriteLine(loginData.ToString());
+                }
+                else
+                {
+                    Console.WriteLine("Default package with id");
+                }
 
                 tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
             }

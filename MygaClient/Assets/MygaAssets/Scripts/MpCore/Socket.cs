@@ -50,8 +50,10 @@ public static class Socket
             Package package = new Package(data);
             Debug.Log(package.id);
 
-            Package backPackage = new Package(5);
-            SendData(backPackage);
+            // PlayerLoginData loginPackage = new PlayerLoginData(0, "Zikkey", "1233232");
+            Package loginPackage = new Package(0);
+
+             SendData(loginPackage);
 
             stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
