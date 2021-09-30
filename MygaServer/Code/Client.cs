@@ -47,7 +47,6 @@ namespace MygaServer
                 package1.writer.Write("hi client");
                 SendData(package1.buffer);
 
-
                 tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
             }
             catch (Exception _ex)

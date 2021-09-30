@@ -26,4 +26,12 @@ namespace MygaServer
             reader = new BinaryReader(stream);
         }
     }
+
+    public static class PackageAddon
+    {
+        public static Package Copy(this Package package)
+        {
+            return new Package(package.buffer);
+        }
+    }
 }
