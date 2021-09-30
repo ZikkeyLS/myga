@@ -40,12 +40,15 @@ namespace MygaServer
             OnClientConnection(client);
             AcceptTcpClient();
         }
-
         private void OnClientConnection(TcpClient tcpClient)
         {
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
             Client client = new Client(tcpClient);
             Server.clients.Add(client);
+<<<<<<< HEAD
+=======
+            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
+>>>>>>> ff48c148227118e622a5312f9fdf583388a5da0c
         }
     }
 }
