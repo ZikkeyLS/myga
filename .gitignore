@@ -8,7 +8,6 @@ MygaClient/ProjectSettings/
 MygaClient/Assets/SideAssets/
 *.unity
 *.cache
-*.csproj
 *.vsconfig
 *.csproj
 *.meta
