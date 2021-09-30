@@ -29,6 +29,27 @@ namespace MygaClient
 
             id = reader.ReadInt32();
         }
+
+        public void WriteUO(object obj)
+        {
+            byte[] data = Formatter.ObjectToByteArray(obj);
+            writer.Write(data.Length);
+            writer.Write(data);
+        }
+
+        public object ReadUO()
+        {
+            byte[] data = reader.ReadBytes(reader.ReadInt32());
+            return Formatter.ByteArrayToObject(data);
+        }
+
+        public void Clear()
+        {
+            buffer = new byte[4096];
+            stream = null;
+            writer = null;
+            reader = null;
+        }
     }
 
     public static class PackageAddon

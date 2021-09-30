@@ -4,6 +4,7 @@ namespace MygaServer
 {
     public class Package
     {
+        public int id { get; private set; } = 0;
         public byte[] buffer { get; private set; } = new byte[4096];
         public MemoryStream stream { get; private set; }
         public BinaryWriter writer { get; private set; }
@@ -15,6 +16,7 @@ namespace MygaServer
             writer = new BinaryWriter(stream);
             reader = new BinaryReader(stream);
 
+            this.id = id;
             writer.Write(id);
         }
 
@@ -24,6 +26,29 @@ namespace MygaServer
             stream = new MemoryStream(buffer);
             writer = new BinaryWriter(stream);
             reader = new BinaryReader(stream);
+
+            id = reader.ReadInt32();
+        }
+
+        public void WriteUO(object obj)
+        {
+            byte[] data = Formatter.ObjectToByteArray(obj);
+            writer.Write(data.Length);
+            writer.Write(data);
+        }
+
+        public object ReadUO()
+        {
+            byte[] data = reader.ReadBytes(reader.ReadInt32());
+            return Formatter.ByteArrayToObject(data);
+        }
+
+        public void Clear()
+        {
+            buffer = new byte[4096];
+            stream = null;
+            writer = null;
+            reader = null;
         }
     }
 
