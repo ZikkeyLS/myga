@@ -10,5 +10,7 @@ MygaClient/Assets/SideAssets/
 *.unity
 *.cache
 *.vsconfig
+*.cache
+*.csproj
 MygaServer/bin/
 MygaServer/obj/
