@@ -22,18 +22,10 @@ namespace MygaServer
             this.tcpClient = tcpClient;
             tcpStream = tcpClient.GetStream();
 
-<<<<<<< HEAD
-            Package package1 = new Package(0);
-            package1.writer.Write("hi client");
-            Send(package1);
-
-            tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
-=======
             Package package = new Package(55);
             SendData(package);
 
-            tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
->>>>>>> ff48c148227118e622a5312f9fdf583388a5da0c
+            tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
         private void RecieveCallback(IAsyncResult _result)
@@ -51,17 +43,9 @@ namespace MygaServer
                 ServerEventSystem.StartEvent(ServerEvent.DataHandled);
 
                 Package package = new Package(data);
-<<<<<<< HEAD
-                package.reader.ReadInt32();
-
-                Console.WriteLine(package.reader.ReadString());
+                Console.WriteLine(package.id);
 
                 tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
-=======
-                Console.WriteLine(package.reader.ReadInt32());
-
-                tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
->>>>>>> ff48c148227118e622a5312f9fdf583388a5da0c
             }
             catch (Exception _ex)
             {
@@ -70,19 +54,10 @@ namespace MygaServer
                 tcpStream.Close();
             }
         }
-
-
-<<<<<<< HEAD
-        public void Send(Package package)
-        {
-            byte[] data = package.buffer;
-            tcpStream.Write(data, 0, data.Length);
-=======
         public void SendData(Package package)
         {
             byte[] bytes = package.buffer;
             tcpStream.Write(bytes, 0, bytes.Length);
->>>>>>> ff48c148227118e622a5312f9fdf583388a5da0c
         }
     }
 }
