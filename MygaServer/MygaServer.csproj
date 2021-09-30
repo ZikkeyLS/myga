@@ -6,4 +6,10 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="MsgPack.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

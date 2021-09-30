@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{7C823639-82CD-9695-C272-A2D48B1E3172}</ProjectGuid>
+    <ProjectGuid>{7C6A6788-F4A1-8D58-3930-F9D9886A30E0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>MessagePack</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,17 +63,107 @@
     <Analyzer Include="Assets\MsgPack\Plugins\System.Memory.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MygaAssets\Scripts\Cross\Package.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Cross\Formatter.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Socket.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\PrimitiveObjectFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\TypelessObjectResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\StandardClassLibraryFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\RuntimeTypeHandleEqualityComparer.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\BuiltinResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackWriter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\DynamicEnumResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Unsafe32.Dirty.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\DateTimeFormatters.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\TupleFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\IgnoreFormatter`1.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSerializer.Json.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\ExtensionHeader.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\FarmHash.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\EnumAsStringFormatter`1.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\ByteArrayStringHashTable.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\GenericEnumFormatter`1.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSerializer.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\MessagePackReader.Integers.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Unity\Extension\UnsafeBlitFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Safe64.Dirty.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\CollectionHelpers`2.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\StringEncoding.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\SequenceReader.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackReader.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\GuidBits.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\StandardResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\AsymmetricKeyHashTable.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\DynamicUnionResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\SafeBitConverter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\ThisLibraryExtensionTypeCodes.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\CodeGenHelpers.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\DynamicGenericResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\StaticCompositeResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\IMessagePackFormatter`1.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\ReflectionExtensions.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\SequenceReaderExtensions.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\ExpressionUtility.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Unity\UnityResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\PrimitiveObjectResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\ContractlessReflectionObjectResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\CachingFormatterResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\IFormatterResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\CompositeResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\NativeDateTimeResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\AttributeFormatterResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\ValueTupleFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\ForceSizePrimitiveFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\UnsafeMemory.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MonoProtection.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\NativeGuidResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Unity\Extension\UnityBlitResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\NativeDecimalResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\DynamicObjectTypeFallbackFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\ILGeneratorExtensions.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\TypelessFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Helper.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Unsafe.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackStreamReader.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\Sequence`1.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\DictionaryFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\MultiDimensionalArrayFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\NullableFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Safe32.Dirty.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\StreamPolyfillExtensions.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Utilities.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Unsafe64.Dirty.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\UnsafeBinaryFormatters.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\DateTimeConstants.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackCompression.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\TinyJsonReader.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\ExtensionResult.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\AutomataDictionary.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\ThreadsafeTypeKeyHashTable.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\ExpandoObjectFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackCode.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSecurity.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Nil.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\CollectionFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\LZ4\LZ4Codec.Safe.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Unity\Formatters.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Formatters\NilFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\BitOperations.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\DynamicAssembly.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSerializerOptions.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Unity\MessagePackWindow.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\DynamicEnumAsStringResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\BufferWriter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSerializer.NonGeneric.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\MessagePackSerializationException.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\ExpandoObjectResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\HashCode.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\DynamicObjectResolver.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\SequencePool.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Internal\UnsafeMemory.Low.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\T4\PrimitiveFormatter.cs" />
+    <Compile Include="Assets\MsgPack\Scripts\MessagePack\Resolvers\TypelessContractlessStandardResolver.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\MsgPack\Plugins\System.Buffers.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Runtime.CompilerServices.Unsafe.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Threading.Tasks.Extensions.dll" />
-    <None Include="Assets\MsgPack\Plugins\System.Memory.dll" />
+    <None Include="Assets\MsgPack\Scripts\MessagePack\MessagePack.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -298,8 +388,14 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory">
       <HintPath>Assets\MsgPack\Plugins\System.Memory.dll</HintPath>
@@ -658,32 +754,8 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
@@ -693,10 +765,6 @@
     <ProjectReference Include="MessagePack.Annotations.csproj">
       <Project>{BF1B18B6-9FD5-7927-8015-9A5F25A6210D}</Project>
       <Name>MessagePack.Annotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="MessagePack.csproj">
-      <Project>{7C6A6788-F4A1-8D58-3930-F9D9886A30E0}</Project>
-      <Name>MessagePack</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
