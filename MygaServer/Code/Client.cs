@@ -21,10 +21,15 @@ namespace MygaServer
         {
             this.tcpClient = tcpClient;
             tcpStream = tcpClient.GetStream();
-            tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
+
+            Package package1 = new Package(0);
+            package1.writer.Write("hi client");
+            Send(package1);
+
+            tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
-        private void ReceiveCallback(IAsyncResult _result)
+        private void RecieveCallback(IAsyncResult _result)
         {
             try
             {
@@ -43,12 +48,7 @@ namespace MygaServer
 
                 Console.WriteLine(package.reader.ReadString());
 
-                Package package1 = new Package(0);
-                package1.writer.Write("hi client");
-                SendData(package1.buffer);
-
-
-                tcpStream.BeginRead(data, 0, data.Length, ReceiveCallback, null);
+                tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
             }
             catch (Exception _ex)
             {
@@ -59,9 +59,10 @@ namespace MygaServer
         }
 
 
-        public void SendData(byte[] bytes)
+        public void Send(Package package)
         {
-            tcpStream.BeginWrite(bytes, 0, bytes.Length, null, null);
+            byte[] data = package.buffer;
+            tcpStream.Write(data, 0, data.Length);
         }
     }
 }
