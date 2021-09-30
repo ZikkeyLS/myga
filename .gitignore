@@ -9,5 +9,6 @@ MygaClient/Assets/SideAssets/
 *.meta
 *.unity
 *.cache
+*.vsconfig
 MygaServer/bin/
 MygaServer/obj/
