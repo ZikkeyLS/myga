@@ -3,6 +3,7 @@
 namespace MygaServer
 {
     public delegate void ServerEventFunction(int id);
+    public delegate void PackageRecieved(Client client, byte[] data);
 
     public class ServerEventData
     {
@@ -16,13 +17,24 @@ namespace MygaServer
         }
     }
 
+    public class PackageRecievedData
+    {
+        public PackageRecieved packageRecieved;
+        public string type;
+
+        public PackageRecievedData(PackageRecieved packageRecieved, string type)
+        {
+            this.packageRecieved = packageRecieved;
+            this.type = type;
+        }
+    }
+
     public enum ServerEvent
     {
         ServerStarted,
         ServerClose,
         ClientConnected,
         ClientDisconnected,
-        DataHandled
     }
 
     public static class ServerEventSystem
@@ -31,7 +43,6 @@ namespace MygaServer
         {
             { ServerEvent.ClientConnected, emptyEventList },
             { ServerEvent.ClientDisconnected, emptyEventList },
-            { ServerEvent.DataHandled, emptyEventList },
             { ServerEvent.ServerStarted, emptyEventList }
         };
 
@@ -68,6 +79,20 @@ namespace MygaServer
                 if (handlers[i].once)
                     DisOn(eventType, i);
             }
+        }
+
+        public static HashSet<PackageRecievedData> packageEvents = new HashSet<PackageRecievedData>();
+
+        public static void OnPackageRecieved(PackageRecieved packageRecieved, string packageType = "Any")
+        {
+            packageEvents.Add(new PackageRecievedData(packageRecieved, packageType));
+        }
+
+        public static void PackageRecieved(Client client, byte[] data)
+        {
+            foreach (PackageRecievedData recievedData in packageEvents)
+                if (new CheckerPackage(data).typeOf(recievedData.type) || recievedData.type == "Any")
+                    recievedData.packageRecieved(client, data);
         }
     }
 }

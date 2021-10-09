@@ -1,46 +1,46 @@
 ﻿using System;
-using System.IO;
+using System.Text;
 
 namespace MygaServer
 {
-    public class Package
+    public class Package : IDisposable
     {
-        public int id { get; private set; } = 0;
+        private string parsedPackageData;
+        protected PackageReader reader;
         public string packageType { get; private set; }
-        public byte[] buffer { get; private set; } = new byte[4096];
-        public MemoryStream stream { get; private set; }
-        public BinaryWriter writer { get; private set; }
-        public BinaryReader reader { get; private set; }
 
-        public Package(int id, string typeName = "Package")
+        public Package(string typeName = "Package")
         {
-            stream = new MemoryStream(buffer);
-            writer = new BinaryWriter(stream);
-            reader = new BinaryReader(stream);
-
-            this.id = id;
-            writer.Write(id);
-            this.packageType = typeName;
-            writer.Write(typeName);
+            packageType = typeName;
+            Write(typeName);
         }
 
         public Package(byte[] bytes)
         {
-            buffer = bytes;
-            stream = new MemoryStream(buffer);
-            writer = new BinaryWriter(stream);
-            reader = new BinaryReader(stream);
+            parsedPackageData = Encoding.UTF8.GetString(bytes);
+            reader = new PackageReader(parsedPackageData);
 
-            id = reader.ReadInt32();
             packageType = reader.ReadString();
+        }
+
+        public void Dispose()
+        {
+            reader = null;
+        }
+
+        public void Write(object element)
+        {
+            parsedPackageData += $"{element};";
         }
 
         public void Clear()
         {
-            buffer = new byte[4096];
-            stream = null;
-            writer = null;
-            reader = null;
+            parsedPackageData = string.Empty;
+        }
+       
+        public byte[] ToBytes()
+        {
+            return Encoding.ASCII.GetBytes(parsedPackageData);
         }
 
         public bool typeOf(string packageType)
@@ -49,11 +49,78 @@ namespace MygaServer
         }
     }
 
+    public class CheckerPackage : IDisposable
+    {
+        private string parsedPackageData;
+        protected PackageReader reader;
+
+        public string packageType { get; private set; }
+
+        public CheckerPackage(byte[] bytes)
+        {
+            parsedPackageData = Encoding.UTF8.GetString(bytes);
+            reader = new PackageReader(parsedPackageData);
+
+            packageType = reader.ReadString();
+        }
+
+        public bool typeOf(string packageType)
+        {
+            return this.packageType == packageType;
+        }
+
+        public void Dispose()
+        {
+            reader = null;
+        }
+    }
+
+    public class PackageReader
+    {
+        public string[] values;
+        public int index = 0;
+
+        public PackageReader(string parsedPackageData)
+        {
+            values = parsedPackageData.Split(';');
+        }
+
+        public int ReadInt()
+        {
+            return Convert.ToInt32(ReadString());
+        }
+
+        public float ReadFloat()
+        {
+            return Convert.ToInt64(ReadString());
+        }
+
+        public long ReadLong()
+        {
+            return Convert.ToInt64(ReadString());
+        }
+
+        public string ReadString()
+        {
+            if (OverIndexException())
+                return string.Empty;
+
+            string result = values[index];
+            index++;
+            return result;
+        }
+
+        private bool OverIndexException()
+        {
+            bool result = values.Length - 1 == index;
+            if (result)
+                Console.WriteLine("Error: index equals to values count. Returning a default value...", ConsoleColor.Red);
+            return result;
+        }
+    }
+
     public static class PackageAddon
     {
-        public static Package Copy(this Package package)
-        {
-            return new Package(package.buffer);
-        }
+        public static Package Copy(this Package package) => new Package(package.ToBytes());
     }
 }

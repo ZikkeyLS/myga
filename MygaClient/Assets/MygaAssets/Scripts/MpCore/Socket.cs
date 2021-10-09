@@ -48,12 +48,11 @@ public static class Socket
             }
 
             Package package = new Package(data);
-            Debug.Log(package.id);
+            Debug.Log(package.packageType);
 
-            // PlayerLoginData loginPackage = new PlayerLoginData(0, "Zikkey", "1233232");
-            Package loginPackage = new Package(0);
+            PlayerLoginData loginPackage = new PlayerLoginData("Zikkey", "1233232");
 
-             SendData(loginPackage);
+            SendData(loginPackage);
 
             stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
@@ -68,7 +67,7 @@ public static class Socket
 
         public static void SendData(Package package)
         {
-            byte[] data = package.buffer;
+            byte[] data = package.ToBytes();
             stream.Write(data, 0, data.Length);
         }
     }

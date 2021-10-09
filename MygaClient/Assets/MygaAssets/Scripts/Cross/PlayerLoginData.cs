@@ -5,12 +5,12 @@ namespace MygaClient
         public string username;
         public string password;
 
-        public PlayerLoginData(int _id, string _username, string _password) : base(_id, "PlayerLoginData")
+        public PlayerLoginData(string _username, string _password) : base("PlayerLoginData")
         {
             username = _username;
             password = _password;
-            writer.Write(username);
-            writer.Write(password);
+            Write(username);
+            Write(password);
         }
 
         public PlayerLoginData(byte[] _data) : base(_data)

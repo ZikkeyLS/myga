@@ -22,7 +22,7 @@ namespace MygaServer
             this.tcpClient = tcpClient;
             tcpStream = tcpClient.GetStream();
 
-            Package package = new Package(55);
+            Package package = new Package("FromServer");
             SendData(package);
 
             tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
@@ -40,19 +40,7 @@ namespace MygaServer
                     return;
                 }
 
-                ServerEventSystem.StartEvent(ServerEvent.DataHandled);
-
-                Package checkPackage = new Package(data);
-                if (checkPackage.typeOf("PlayerLoginData"))
-                {
-                    PlayerLoginData loginData = new PlayerLoginData(checkPackage.buffer);
-                    Console.WriteLine(loginData.ToString());
-                }
-                else
-                {
-                    Console.WriteLine("Default package with id");
-                }
-
+                ServerEventSystem.PackageRecieved(this, data);
                 tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
             }
             catch (Exception _ex)
@@ -64,7 +52,7 @@ namespace MygaServer
         }
         public void SendData(Package package)
         {
-            byte[] bytes = package.buffer;
+            byte[] bytes = package.ToBytes();
             tcpStream.Write(bytes, 0, bytes.Length);
         }
     }

@@ -35,9 +35,21 @@ namespace MygaServer
                 Console.WriteLine("Player connected: " + CurrentPlayers);
             });
 
-            ServerEventSystem.On(ServerEvent.DataHandled, (eventID) => {
-                
-            });
+            ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {
+                CheckerPackage package = new CheckerPackage(data);
+                switch (package.packageType)
+                {
+                    case "PlayerLoginData":
+                        PlayerLoginData loginData = new PlayerLoginData(data);
+                        Console.WriteLine(loginData.ToString());
+                        loginData.Dispose();
+                        break;
+                    default:
+                        Console.WriteLine($"Default or unknown package with type: {package.packageType}");
+                        break;
+                }
+                package.Dispose();
+            }));
         }
     }
 }
