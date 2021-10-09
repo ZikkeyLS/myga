@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 
-namespace MygaServer
+namespace MygaCross
 {
     public class Package : IDisposable
     {
-        private string parsedPackageData;
+        protected string parsedPackageData;
         protected PackageReader reader;
         public string packageType { get; private set; }
 
@@ -37,7 +37,7 @@ namespace MygaServer
         {
             parsedPackageData = string.Empty;
         }
-       
+
         public byte[] ToBytes()
         {
             return Encoding.ASCII.GetBytes(parsedPackageData);
@@ -112,10 +112,7 @@ namespace MygaServer
 
         private bool OverIndexException()
         {
-            bool result = values.Length - 1 == index;
-            if (result)
-                Console.WriteLine("Error: index equals to values count. Returning a default value...", ConsoleColor.Red);
-            return result;
+            return values.Length - 1 == index;
         }
     }
 

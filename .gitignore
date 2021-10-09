@@ -12,3 +12,5 @@ MygaClient/Assets/SideAssets/
 *.meta
 MygaServer/bin/
 MygaServer/obj/
+MygaCross/bin/
+MygaCross/obj/

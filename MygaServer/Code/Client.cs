@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaCross;
+using System;
 using System.Net.Sockets;
 
 namespace MygaServer

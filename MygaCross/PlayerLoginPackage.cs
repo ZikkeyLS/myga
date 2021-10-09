@@ -1,4 +1,4 @@
-namespace MygaClient
+﻿namespace MygaCross
 {
     public class PlayerLoginData : Package
     {

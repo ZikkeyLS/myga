@@ -1,4 +1,5 @@
 ﻿using MygaClient;
+using MygaCross;
 using System;
 using System.Net.Sockets;
 using UnityEngine;
