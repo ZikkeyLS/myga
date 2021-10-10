@@ -11,7 +11,7 @@ namespace MygaServer
         public static string Ip { get; private set; } = "";
         public static int Port { get; private set; } = 0;
 
-        public static HashSet<Client> clients = new HashSet<Client>();
+        public static List<Client> clients = new List<Client>();
         public static bool stop = false;
         private static Socket socket;
 
@@ -34,6 +34,9 @@ namespace MygaServer
             ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
                 CurrentPlayers++;
                 Console.WriteLine("Player connected: " + CurrentPlayers);
+
+                ServerIntroducePackage package = new ServerIntroducePackage("Hello my dear friend!");
+                clients[CurrentPlayers - 1].SendData(package);
             });
 
             ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {

@@ -6,11 +6,20 @@ using UnityEngine;
 
 public static class Socket
 {
-    private static UdpClient udpClient;
-
     public static void Connect(string _ip, int _port)
     {
+        Handler.ConnectEvents();
         TcpSocket.Connect(_ip, _port);
+    }
+
+    public static void SendTCPData(Package package)
+    {
+        TcpSocket.SendData(package);
+    }
+
+    public static void SendTCPData(byte[] data)
+    {
+        TcpSocket.stream.Write(data, 0, data.Length);
     }
 
     private static class TcpSocket
@@ -48,13 +57,7 @@ public static class Socket
                 return;
             }
 
-            Package package = new Package(data);
-            Debug.Log(package.packageType);
-
-            PlayerLoginData loginPackage = new PlayerLoginData("Zikkey", "1233232");
-
-            SendData(loginPackage);
-
+            ClientEventSystem.PackageRecieved(data);
             stream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
@@ -73,7 +76,7 @@ public static class Socket
         }
     }
 
-    private class UdpSocket
+    private static class UdpSocket
     {
 
     }

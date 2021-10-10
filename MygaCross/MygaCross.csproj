@@ -45,6 +45,7 @@
     <Compile Include="Package.cs" />
     <Compile Include="PlayerLoginPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerIntroducePackage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

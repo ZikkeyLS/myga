@@ -22,10 +22,6 @@ namespace MygaServer
         {
             this.tcpClient = tcpClient;
             tcpStream = tcpClient.GetStream();
-
-            Package package = new Package("FromServer");
-            SendData(package);
-
             tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
@@ -51,6 +47,7 @@ namespace MygaServer
                 tcpStream.Close();
             }
         }
+
         public void SendData(Package package)
         {
             byte[] bytes = package.ToBytes();
