@@ -6,8 +6,11 @@ MygaClient/Temp/
 MygaClient/UserSettings/
 MygaClient/ProjectSettings/
 MygaClient/Assets/SideAssets/
-*.meta
 *.unity
 *.cache
+*.vsconfig
+*.meta
 MygaServer/bin/
 MygaServer/obj/
+MygaCross/bin/
+MygaCross/obj/

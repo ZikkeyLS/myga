@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaCross;
+using System;
 using System.Collections.Generic;
 
 namespace MygaServer
@@ -10,7 +11,7 @@ namespace MygaServer
         public static string Ip { get; private set; } = "";
         public static int Port { get; private set; } = 0;
 
-        public static HashSet<Client> clients = new HashSet<Client>();
+        public static List<Client> clients = new List<Client>();
         public static bool stop = false;
         private static Socket socket;
 
@@ -33,11 +34,26 @@ namespace MygaServer
             ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
                 CurrentPlayers++;
                 Console.WriteLine("Player connected: " + CurrentPlayers);
+
+                ServerIntroducePackage package = new ServerIntroducePackage("Hello my dear friend!");
+                clients[CurrentPlayers - 1].SendData(package);
             });
 
-            ServerEventSystem.On(ServerEvent.DataHandled, (eventID) => {
-                
-            });
+            ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {
+                CheckerPackage package = new CheckerPackage(data);
+                switch (package.packageType)
+                {
+                    case "PlayerLoginData":
+                        PlayerLoginData loginData = new PlayerLoginData(data);
+                        Console.WriteLine(loginData.ToString());
+                        loginData.Dispose();
+                        break;
+                    default:
+                        Console.WriteLine($"Default or unknown package with type: {package.packageType}");
+                        break;
+                }
+                package.Dispose();
+            }));
         }
     }
 }

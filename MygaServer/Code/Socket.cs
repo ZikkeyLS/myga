@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaCross;
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -43,9 +44,9 @@ namespace MygaServer
 
         private void OnClientConnection(TcpClient tcpClient)
         {
-            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
             Client client = new Client(tcpClient);
             Server.clients.Add(client);
+            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
         }
     }
 }

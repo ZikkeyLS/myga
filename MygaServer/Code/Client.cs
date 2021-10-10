@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaCross;
+using System;
 using System.Net.Sockets;
 
 namespace MygaServer
@@ -21,11 +22,6 @@ namespace MygaServer
         {
             this.tcpClient = tcpClient;
             tcpStream = tcpClient.GetStream();
-
-            Package package1 = new Package(0);
-            package1.writer.Write("hi client");
-            Send(package1);
-
             tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
         }
 
@@ -41,13 +37,7 @@ namespace MygaServer
                     return;
                 }
 
-                ServerEventSystem.StartEvent(ServerEvent.DataHandled);
-
-                Package package = new Package(data);
-                package.reader.ReadInt32();
-
-                Console.WriteLine(package.reader.ReadString());
-
+                ServerEventSystem.PackageRecieved(this, data);
                 tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
             }
             catch (Exception _ex)
@@ -58,11 +48,10 @@ namespace MygaServer
             }
         }
 
-
-        public void Send(Package package)
+        public void SendData(Package package)
         {
-            byte[] data = package.buffer;
-            tcpStream.Write(data, 0, data.Length);
+            byte[] bytes = package.ToBytes();
+            tcpStream.Write(bytes, 0, bytes.Length);
         }
     }
 }

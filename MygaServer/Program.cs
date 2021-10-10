@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MygaServer
+﻿namespace MygaServer
 {
     class Program
     {
