@@ -4,7 +4,6 @@ using System.Net.Sockets;
 
 namespace MygaServer
 {
-
     public class Client
     {
         public TcpClient tcpClient;
