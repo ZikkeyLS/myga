@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorPackage.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Package.cs" />
     <Compile Include="PlayerLoginPackage.cs" />

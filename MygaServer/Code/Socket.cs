@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MygaCross;
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -37,11 +38,21 @@ namespace MygaServer
 
         private static void OnClientConnection(IAsyncResult result)
         {
-            Client client = new Client((TcpClient)result);
+            Client client = new Client(tcpServer.EndAcceptTcpClient(result));
             Server.clients.Add(client);
-            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
 
-            tcpServer.EndAcceptTcpClient(result);
+            if (Server.clients.Count >= Server.MaxPlayers)
+            {
+                ErrorPackage package = new ErrorPackage("Server is already full, try reconnect later!");
+                client.SendData(package);
+                ServerIntroducePackage package2 = new ServerIntroducePackage("ect later!");
+                client.SendData(package2);
+                // client.Disconnect();
+                package.Dispose();
+            }
+            else
+                ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
+
             AcceptTcpClient();
         }
     }

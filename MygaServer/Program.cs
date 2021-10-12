@@ -6,7 +6,7 @@ namespace MygaServer
     {
         static void Main(string[] args)
         {
-            Server.Start("127.0.0.1", 25565, 100);
+            Server.Start("127.0.0.1", 25565, 0);
 
             while (true) 
             {

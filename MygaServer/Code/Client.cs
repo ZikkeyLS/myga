@@ -31,8 +31,7 @@ namespace MygaServer
                 int _byteLength = tcpStream.EndRead(_result);
                 if (_byteLength <= 0)
                 {
-                    tcpClient.Close();
-                    tcpStream.Close();
+                    Disconnect();
                     return;
                 }
 
@@ -42,8 +41,7 @@ namespace MygaServer
             catch (Exception _ex)
             {
                 Console.WriteLine($"Error receiving TCP data: {_ex}");
-                tcpClient.Close();
-                tcpStream.Close();
+                Disconnect();
             }
         }
 
@@ -51,6 +49,13 @@ namespace MygaServer
         {
             byte[] bytes = package.ToBytes();
             tcpStream.Write(bytes, 0, bytes.Length);
+        }
+
+        public void Disconnect()
+        {
+            tcpClient.Close();
+            tcpStream.Close();
+            Server.clients.Remove(this);
         }
     }
 }

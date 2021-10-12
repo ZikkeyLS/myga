@@ -10,6 +10,7 @@ namespace MygaClient
         {
             ClientEventSystem.OnPackageRecieved(OnPackage);
             ClientEventSystem.OnPackageRecieved(OnConnectPackage, "ServerIntroducePackage");
+            ClientEventSystem.OnPackageRecieved(OnErrorPackage, "ErrorPackage");
         }
 
         public static void OnPackage(byte[] data)
@@ -20,6 +21,12 @@ namespace MygaClient
         {
             ServerIntroducePackage package = new ServerIntroducePackage(data);
             Debug.Log(package.message);
+        }
+
+        public static void OnErrorPackage(byte[] data)
+        {
+            ErrorPackage package = new ErrorPackage(data);
+            Debug.LogWarning(package.message);
         }
     }
 }
