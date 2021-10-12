@@ -1,7 +1,10 @@
-﻿public static class Network
-{ 
-    public static void Connect(string ip, int port)
+﻿namespace MygaClient
+{
+    public static class Network
     {
-        Socket.Connect(ip, port);
+        public static void Connect(string ip, int port)
+        {
+            Socket.Connect(ip, port);
+        }
     }
 }

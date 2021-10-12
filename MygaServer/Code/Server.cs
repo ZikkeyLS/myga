@@ -11,9 +11,7 @@ namespace MygaServer
         public static string Ip { get; private set; } = "";
         public static int Port { get; private set; } = 0;
 
-        public static List<Client> clients = new List<Client>();
-        public static bool stop = false;
-        private static Socket socket;
+        public readonly static List<Client> clients = new List<Client>();
 
         public static void Start(string ip, int port, int maxPlayers)
         {
@@ -21,7 +19,7 @@ namespace MygaServer
             Port = port;
             MaxPlayers = maxPlayers;
             ConnectBasicEvents();
-            socket = new Socket(ip, port);
+            Socket.Run(ip, port);
         }
 
         private static void ConnectBasicEvents()
