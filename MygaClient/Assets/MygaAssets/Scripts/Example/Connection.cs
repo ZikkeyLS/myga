@@ -11,7 +11,7 @@ namespace MygaClient
         [SerializeField] private string nickname = "Zikkey";
         [SerializeField] private string password = "123321";
 
-        void Start()
+        private void Start()
         {
             Login();
         }
