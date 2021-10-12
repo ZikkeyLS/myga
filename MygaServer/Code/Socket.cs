@@ -1,21 +1,15 @@
-﻿using MygaCross;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 
 namespace MygaServer
 {
-    public class Socket
+    public static class Socket
     {
-        private TcpListener tcpServer;
+        private static TcpListener tcpServer;
 
-        public Socket() { }
-        public Socket(string ip, int port, bool start = true) { Run(ip, port, start); }
-
-        public void Run(string ip, int port, bool start = true)
+        public static void Run(string ip, int port)
         {
-            if (!start)
-                return;
 
             tcpServer = new TcpListener(IPAddress.Parse(ip), port);
             tcpServer.Start();
@@ -29,24 +23,26 @@ namespace MygaServer
             {
                 Console.WriteLine("SocketException: {0}", e);
             }
-            finally
-            {
-                tcpServer.Stop();
-            }
         }
 
-        public void AcceptTcpClient()
+        public static void Stop()
         {
-            TcpClient client = tcpServer.AcceptTcpClient();
-            OnClientConnection(client);
-            AcceptTcpClient();
+            tcpServer.Stop();
         }
 
-        private void OnClientConnection(TcpClient tcpClient)
+        private static void AcceptTcpClient()
         {
-            Client client = new Client(tcpClient);
+            tcpServer.BeginAcceptTcpClient(OnClientConnection, null);
+        }
+
+        private static void OnClientConnection(IAsyncResult result)
+        {
+            Client client = new Client((TcpClient)result);
             Server.clients.Add(client);
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
+
+            tcpServer.EndAcceptTcpClient(result);
+            AcceptTcpClient();
         }
     }
 }
