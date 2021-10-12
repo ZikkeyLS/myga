@@ -23,11 +23,6 @@ namespace MygaCross
             packageType = reader.ReadString();
         }
 
-        public void Dispose()
-        {
-            reader = null;
-        }
-
         public void Write(object element)
         {
             parsedPackageData += $"{element};";
@@ -46,6 +41,13 @@ namespace MygaCross
         public bool typeOf(string packageType)
         {
             return this.packageType == packageType;
+        }
+
+        public void Dispose()
+        {
+            reader = null;
+            parsedPackageData = null;
+            packageType = null;
         }
     }
 
@@ -72,6 +74,8 @@ namespace MygaCross
         public void Dispose()
         {
             reader = null;
+            parsedPackageData = null;
+            packageType = null;
         }
     }
 
