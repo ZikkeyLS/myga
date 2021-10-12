@@ -40,7 +40,7 @@ namespace MygaCross
 
         public byte[] ToBytes()
         {
-            return Encoding.ASCII.GetBytes(parsedPackageData);
+            return Encoding.UTF8.GetBytes(parsedPackageData);
         }
 
         public bool typeOf(string packageType)
