@@ -26,20 +26,6 @@ namespace MygaClient
         private void Login()
         {
             Client.Connect(ip, port);
-            PlayerLoginData loginPackage = new PlayerLoginData(nickname, password);
-          
-            StartCoroutine("test");
-        }
-
-        private IEnumerator test()
-        {
-            PlayerLoginData loginPackage = new PlayerLoginData("erere", "123");
-
-            for(int i = 0; i < 10; i++)
-            {
-                Client.SendTCPData(loginPackage);
-                yield return new WaitForSeconds(1);
-            }
         }
     }
 }

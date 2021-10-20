@@ -1,19 +1,21 @@
-﻿using MygaCross;
-using System;
+﻿using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
-using UnityEngine;
+using System;
+using MygaCross;
 
-namespace MygaClient
+namespace MygaClient 
 {
     public static class Client
     {
         public static int dataBufferSize = 4096;
 
-        public static string ip { get; private set; } = "26.202.163.171";
-        public static int port { get; private set; } = 25565;
-        public static TCP tcp { get; private set; } = new TCP();
-        public static UDP udp { get; private set; } = new UDP();
+        public static string ip = "26.202.163.171";
+        public static int port = 25565;
+        public static int myId = 0;
+        public static TCP tcp = new TCP();
+        public static UDP udp = new UDP();
+
         private static bool connected = false;
 
         public static void Connect(string _ip, int _port)
@@ -25,22 +27,22 @@ namespace MygaClient
             tcp.Connect();
         }
 
-        private static void HandleData(byte[] _data)
+        public static void SendTCPData(Package _package)
         {
-            byte[] copiedData = new byte[4096];
-            Array.Copy(_data, copiedData, _data.Length);
-            ClientEventSystem.PackageRecieved(copiedData);
+            tcp.SendData(_package);
         }
 
-        public static void SendTCPData(Package package)
+        public static void SendUDPData(Package _package)
         {
-            tcp.SendData(package);
+            udp.SendData(_package);
         }
 
         public class TCP
         {
             public TcpClient socket;
+
             private NetworkStream stream;
+            private Package receivedData;
             private byte[] receiveBuffer;
 
             public void Connect()
@@ -52,7 +54,7 @@ namespace MygaClient
                 };
 
                 receiveBuffer = new byte[dataBufferSize];
-                socket.BeginConnect(ip, port, ConnectCallback, socket);
+                socket.BeginConnect(Client.ip, Client.port, ConnectCallback, socket);
             }
 
             private void ConnectCallback(IAsyncResult _result)
@@ -65,6 +67,9 @@ namespace MygaClient
                 }
 
                 stream = socket.GetStream();
+
+                receivedData = new Package();
+
                 stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
             }
 
@@ -94,7 +99,10 @@ namespace MygaClient
                         return;
                     }
 
-                    HandleData(receiveBuffer);
+                    byte[] _data = new byte[_byteLength];
+                    Array.Copy(receiveBuffer, _data, _byteLength);
+                    ClientEventSystem.PackageRecieved(_data);
+                   
                     stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
                 }
                 catch
@@ -108,6 +116,7 @@ namespace MygaClient
                 Client.Disconnect();
 
                 stream = null;
+                receivedData = null;
                 receiveBuffer = null;
                 socket = null;
             }
@@ -120,7 +129,7 @@ namespace MygaClient
 
             public UDP()
             {
-                endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+                endPoint = new IPEndPoint(IPAddress.Parse(Client.ip), Client.port);
             }
 
             public void Connect(int _localPort)
@@ -136,13 +145,14 @@ namespace MygaClient
                 }
             }
 
-            public void SendData(Package _packet)
+            public void SendData(Package _package)
             {
                 try
                 {
+                    _package.Write(myId);
                     if (socket != null)
                     {
-                        socket.BeginSend(_packet.ToBytes(), _packet.ToBytes().Length, null, null);
+                        socket.BeginSend(_package.ToBytes(), _package.ToBytes().Length, null, null);
                     }
                 }
                 catch (Exception _ex)
@@ -164,7 +174,7 @@ namespace MygaClient
                         return;
                     }
 
-                    HandleData(_data);
+                    ClientEventSystem.PackageRecieved(_data);
                 }
                 catch
                 {
@@ -181,7 +191,7 @@ namespace MygaClient
             }
         }
 
-        private static void Disconnect()
+        public static void Disconnect()
         {
             if (connected)
             {
@@ -193,5 +203,4 @@ namespace MygaClient
             }
         }
     }
-
 }

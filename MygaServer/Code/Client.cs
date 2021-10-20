@@ -143,6 +143,7 @@ namespace MygaServer
         private void Disconnect()
         {
             Console.WriteLine(tcp.socket.Client.RemoteEndPoint + " has disconnected.");
+            ServerEventSystem.StartEvent(ServerEvent.ClientDisconnected);
 
             tcp.Disconnect();
             udp.Disconnect();

@@ -38,6 +38,12 @@ namespace MygaServer
                 clients[CurrentPlayers - 1].tcp.SendData(package);
             });
 
+            ServerEventSystem.On(ServerEvent.ClientDisconnected, (eventID) =>
+            {
+                CurrentPlayers--;
+                Console.WriteLine("Player disconnected: " + CurrentPlayers);
+            });
+
             ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {
                 CheckerPackage package = new CheckerPackage(data);
                 switch (package.packageType)
