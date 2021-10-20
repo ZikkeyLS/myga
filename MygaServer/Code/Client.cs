@@ -1,61 +1,151 @@
 ﻿using MygaCross;
 using System;
+using System.Net;
 using System.Net.Sockets;
 
 namespace MygaServer
 {
+    [Serializable]
     public class Client
     {
-        public TcpClient tcpClient;
-        public NetworkStream tcpStream;
-        public byte[] data = new byte[4096];
+        public static int dataBufferSize = 4096;
 
-        public Client() { }
+        public int id;
+        public TCP tcp;
+        public UDP udp;
 
-        public Client(TcpClient tcpClient)
+        public Client(int _clientId)
         {
-            Run(tcpClient);
+            id = _clientId;
+            tcp = new TCP(id, this);
+            udp = new UDP(id);
         }
 
-        public void Run(TcpClient tcpClient)
+        public bool HandleData(byte[] _data)
         {
-            this.tcpClient = tcpClient;
-            tcpStream = tcpClient.GetStream();
-            tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
-        }
-
-        private void RecieveCallback(IAsyncResult _result)
-        {
-            try
+            ThreadManager.ExecuteOnMainThread(() =>
             {
-                int _byteLength = tcpStream.EndRead(_result);
-                if (_byteLength <= 0)
+                ServerEventSystem.PackageRecieved(this, _data);
+            });
+
+            return true;
+        }
+
+
+        public class TCP
+        {
+            public Client client;
+            public TcpClient socket;
+
+            private readonly int id;
+            private NetworkStream stream;
+            private Package receivedData;
+            private byte[] receiveBuffer;
+
+            public TCP(int _id, Client client)
+            {
+                id = _id;
+                this.client = client;
+            }
+
+            public void Connect(TcpClient _socket)
+            {
+                socket = _socket;
+                socket.ReceiveBufferSize = dataBufferSize;
+                socket.SendBufferSize = dataBufferSize;
+
+                stream = socket.GetStream();
+
+                receivedData = new Package();
+                receiveBuffer = new byte[dataBufferSize];
+
+                stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+
+                // ServerSend.Welcome(id, "Welcome to the server!");
+            }
+
+            public void SendData(Package _package)
+            {
+                try
                 {
-                    Disconnect();
-                    return;
+                    if (socket != null)
+                    {
+                        stream.BeginWrite(_package.ToBytes(), 0, _package.ToBytes().Length, null, null);
+                    }
                 }
-
-                ServerEventSystem.PackageRecieved(this, data);
-                tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
+                catch (Exception _ex)
+                {
+                    Console.WriteLine($"Error sending data to player {id} via TCP: {_ex}");
+                }
             }
-            catch (Exception _ex)
+
+            private void ReceiveCallback(IAsyncResult _result)
             {
-                Console.WriteLine($"Error receiving TCP data: {_ex}");
-                Disconnect();
+                try
+                {
+                    int _byteLength = stream.EndRead(_result);
+                    if (_byteLength <= 0)
+                    {
+                        client.Disconnect();
+                        return;
+                    }
+
+                    byte[] _data = new byte[_byteLength];
+                    Array.Copy(receiveBuffer, _data, _byteLength);
+                    client.HandleData(_data);
+
+                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+                }
+                catch (Exception _ex)
+                {
+                    Console.WriteLine($"Error receiving TCP data: {_ex}");
+                    Disconnect();
+                }
+            }
+
+            public void Disconnect()
+            {
+                socket.Close();
+                stream = null;
+                receivedData = null;
+                receiveBuffer = null;
+                socket = null;
             }
         }
 
-        public void SendData(Package package)
+        public class UDP
         {
-            byte[] bytes = package.ToBytes();
-            tcpStream.Write(bytes, 0, bytes.Length);
+            public IPEndPoint endPoint;
+
+            private int id;
+
+            public UDP(int _id)
+            {
+                id = _id;
+            }
+
+            public void Connect(IPEndPoint _endPoint)
+            {
+                endPoint = _endPoint;
+            }
+
+            public void SendData(Package _package)
+            {
+                Socket.SendUDPData(endPoint, _package);
+            }
+
+            public void Disconnect()
+            {
+                endPoint = null;
+            }
         }
 
-        public void Disconnect()
+        private void Disconnect()
         {
-            tcpClient.Close();
-            tcpStream.Close();
-            Server.clients.Remove(this);
+            Console.WriteLine(tcp.socket.Client.RemoteEndPoint + " has disconnected.");
+
+            tcp.Disconnect();
+            udp.Disconnect();
         }
     }
 }

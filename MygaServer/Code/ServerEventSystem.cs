@@ -1,4 +1,5 @@
 ﻿using MygaCross;
+using System;
 using System.Collections.Generic;
 
 namespace MygaServer
@@ -92,8 +93,12 @@ namespace MygaServer
         public static void PackageRecieved(Client client, byte[] data)
         {
             foreach (PackageRecievedData recievedData in packageEvents)
-                if (new CheckerPackage(data).typeOf(recievedData.type) || recievedData.type == "Any")
+            {
+                CheckerPackage package = new CheckerPackage(data);
+                Console.WriteLine(package.packageType);
+                if (package.typeOf(recievedData.type) || recievedData.type == "Any")
                     recievedData.packageRecieved(client, data);
+            }
         }
     }
 }

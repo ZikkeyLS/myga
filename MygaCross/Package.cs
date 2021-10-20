@@ -6,7 +6,7 @@ namespace MygaCross
     public class Package : IDisposable
     {
         protected string parsedPackageData;
-        protected PackageReader reader;
+        public PackageReader reader;
         public string packageType { get; private set; }
 
         public Package(string typeName = "Package")

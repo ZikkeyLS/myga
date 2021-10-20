@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace MygaServer
 {
+
     public static class Server
     {
         public static int MaxPlayers { get; private set; } = 1;
@@ -34,7 +35,7 @@ namespace MygaServer
                 Console.WriteLine("Player connected: " + CurrentPlayers);
 
                 ServerIntroducePackage package = new ServerIntroducePackage("Hello my dear friend!");
-                clients[CurrentPlayers - 1].SendData(package);
+                clients[CurrentPlayers - 1].tcp.SendData(package);
             });
 
             ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {

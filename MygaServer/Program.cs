@@ -6,10 +6,11 @@ namespace MygaServer
     {
         static void Main(string[] args)
         {
-            Server.Start("127.0.0.1", 25565, 0);
+            Server.Start("127.0.0.1", 25565, 1);
 
             while (true) 
             {
+                ThreadManager.UpdateMain();
                 if(Console.ReadLine().ToLower() == "stop")
                 {
                     Socket.Stop();

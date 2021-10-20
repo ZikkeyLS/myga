@@ -1,4 +1,5 @@
 ﻿using MygaCross;
+using System.Collections;
 using UnityEngine;
 
 namespace MygaClient
@@ -16,11 +17,29 @@ namespace MygaClient
             Login();
         }
 
+        private void Update()
+        {
+            // PlayerLoginData loginPackage = new PlayerLoginData("erere", "123");
+            // Client.SendTCPData(loginPackage);
+        }
+
         private void Login()
         {
-            Socket.Connect(ip, port);
+            Client.Connect(ip, port);
             PlayerLoginData loginPackage = new PlayerLoginData(nickname, password);
-            Socket.SendTCPData(loginPackage);
+          
+            StartCoroutine("test");
+        }
+
+        private IEnumerator test()
+        {
+            PlayerLoginData loginPackage = new PlayerLoginData("erere", "123");
+
+            for(int i = 0; i < 10; i++)
+            {
+                Client.SendTCPData(loginPackage);
+                yield return new WaitForSeconds(1);
+            }
         }
     }
 }
