@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace MygaServer
 {
     public delegate void ServerEventFunction(int id);
-    public delegate void PackageRecieved(Client client, byte[] data);
+    public delegate void PackageRecieved(byte[] data);
 
     public class ServerEventData
     {
@@ -90,14 +90,13 @@ namespace MygaServer
             packageEvents.Add(new PackageRecievedData(packageRecieved, packageType));
         }
 
-        public static void PackageRecieved(Client client, byte[] data)
+        public static void PackageRecieved(byte[] data)
         {
             foreach (PackageRecievedData recievedData in packageEvents)
             {
                 CheckerPackage package = new CheckerPackage(data);
-                Console.WriteLine(package.packageType);
                 if (package.typeOf(recievedData.type) || recievedData.type == "Any")
-                    recievedData.packageRecieved(client, data);
+                    recievedData.packageRecieved(data);
             }
         }
     }

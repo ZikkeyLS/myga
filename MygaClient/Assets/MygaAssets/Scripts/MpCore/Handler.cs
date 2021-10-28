@@ -9,7 +9,7 @@ namespace MygaClient
         public static void ConnectEvents()
         {
             ClientEventSystem.OnPackageRecieved(OnPackage);
-            ClientEventSystem.OnPackageRecieved(OnConnectPackage, "ServerIntroducePackage");
+            ClientEventSystem.OnPackageRecieved(OnConnectPackage, "IntroducePackage");
             ClientEventSystem.OnPackageRecieved(OnErrorPackage, "ErrorPackage");
         }
 
@@ -19,8 +19,10 @@ namespace MygaClient
 
         public static void OnConnectPackage(byte[] data)
         {
-            ServerIntroducePackage package = new ServerIntroducePackage(data);
+            IntroducePackage package = new IntroducePackage(data);
             Debug.Log(package.message);
+            IntroducePackage returnedpa = new IntroducePackage("ere");
+           // Client.SendUDPData(returnedpa);
         }
 
         public static void OnErrorPackage(byte[] data)
