@@ -1,7 +1,5 @@
 ﻿using MygaCross;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MygaServer
 {
@@ -15,11 +13,11 @@ namespace MygaServer
             });
 
             ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
-                Server.CurrentPlayers++;
                 Console.WriteLine("Player connected: " + Server.CurrentPlayers);
+                Server.CurrentPlayers++;
 
                 IntroducePackage package = new IntroducePackage("Hello my dear friend!");
-              //  Server.clients[Server.CurrentPlayers - 1].udp.SendData(package);
+                Server.clients[Server.CurrentPlayers - 1].Send(package);
             });
 
             ServerEventSystem.On(ServerEvent.ClientDisconnected, (eventID) =>

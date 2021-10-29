@@ -21,8 +21,6 @@ namespace MygaClient
         {
             IntroducePackage package = new IntroducePackage(data);
             Debug.Log(package.message);
-            IntroducePackage returnedpa = new IntroducePackage("ere");
-           // Client.SendUDPData(returnedpa);
         }
 
         public static void OnErrorPackage(byte[] data)

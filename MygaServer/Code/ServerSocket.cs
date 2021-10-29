@@ -2,59 +2,77 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace MygaServer
 {
+    public class State
+    {
+        public byte[] buffer = new byte[ServerSocket.bufferSize];
+    }
+
     public static class ServerSocket
     {
-        private static Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        private static int bufSize = 8 * 1024;
-        private static State state = new State();
-        private static EndPoint epFrom = new IPEndPoint(IPAddress.Any, 0);
-        private static AsyncCallback recv = null;
-
-        public class State
-        {
-            public byte[] buffer = new byte[bufSize];
-        }
-
-        public static void Connect(string address, int port)
-        {
-            _socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
-            _socket.Bind(new IPEndPoint(IPAddress.Parse(address), port));
-            Receive();
-        }
-
-        public static void Send(Package _package)
-        {
-            _socket.BeginSend(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, (ar) =>
-            {
-                _socket.EndSend(ar);
-            }, state);
-        }
-
-        private static void Receive()
-        {
-            _socket.BeginReceiveFrom(state.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv = (ar) =>
-            {
-                State so = (State)ar.AsyncState;
-                int bytes = _socket.EndReceiveFrom(ar, ref epFrom);
-                _socket.BeginReceiveFrom(so.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv, so);
-                ServerEventSystem.PackageRecieved(so.buffer);
-            }, state);
-        }
+        public static readonly int bufferSize = 8 * 1024;
+        private static readonly Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        private static readonly State state = new State();
 
         public static void Run(string ip, int port)
         {
             Handler.ConnectEvents();
-            Connect(ip, port);
+
+            _socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
+            _socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
+
+            EndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            _socket.BeginReceiveFrom(state.buffer, 0, bufferSize, SocketFlags.None, ref clientEndPoint, RecieveCallback, state);
+
             ServerEventSystem.StartEvent(ServerEvent.ServerStarted);
         }
 
         public static void Close()
         {
             _socket.Close();
+        }
+
+        public static void Send(Client _client, Package _package)
+        {
+            _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _client.endPoint, (ar) =>
+            {
+                _socket.EndSend(ar);
+            }, state);
+        }
+
+        public static void SendAll(Package _package, int _exceptID = -1)
+        {
+            foreach(Client client in Server.clients)
+            {
+                if(client.id != _exceptID)
+                    Send(client, _package);
+            }
+        }
+
+        public static void SendAll(Package _package, int[] _exceptIDs)
+        {
+            foreach (Client client in Server.clients)
+            {
+                foreach(int _exceptID in _exceptIDs)
+                {
+                    if (client.id != _exceptID)
+                        Send(client, _package);
+                }
+            }
+        }
+
+        private static void RecieveCallback(IAsyncResult _result)
+        {
+            EndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            State so = (State)_result.AsyncState;
+
+            _socket.EndReceiveFrom(_result, ref clientEndPoint);
+            _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref clientEndPoint, RecieveCallback, so);
+
+            Server.TryAddClient(clientEndPoint);
+            ServerEventSystem.PackageRecieved(so.buffer);
         }
     }
 }

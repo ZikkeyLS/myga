@@ -7,20 +7,21 @@ using System.Text;
 
 namespace MygaClient 
 {
+    public class State
+    {
+        public byte[] buffer = new byte[Client.bufferSize];
+    }
+
     public static class Client
     {
-
+        public static readonly int bufferSize = 8 * 1024;
         private static Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        private static int bufSize = 8 * 1024;
         private static State state = new State();
-        private static EndPoint epFrom = new IPEndPoint(IPAddress.Any, 0);
-        private static AsyncCallback recv = null;
 
-        public static string ip = "127.0.0.1";
-        public static int port = 7777;
-        public static int myId = 0;
-
-        private static bool connected = false;
+        public static string ip { get; private set; } = "127.0.0.1";
+        public static int port { get; private set; } = 7777;
+        public static int myId { get; private set; } = 0;
+        public static bool connected { get; private set; } = false;
 
         public static void Connect(string _ip, int _port)
         {
@@ -28,33 +29,62 @@ namespace MygaClient
             port = _port;
 
             _socket.Connect(IPAddress.Parse(ip), port);
-            Receive();
+            EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
+            _socket.BeginReceiveFrom(state.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, state);
 
+            connected = true;
             Handler.ConnectEvents();
-        }
-
-        public class State
-        {
-            public byte[] buffer = new byte[bufSize];
         }
 
         public static void Send(Package _package)
         {
-            _socket.BeginSend(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, (ar) =>
+            try
             {
-                _socket.EndSend(ar);
-            }, state);
+                if (!connected)
+                    return;
+
+                _socket.BeginSend(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, (ar) =>
+                {
+                    _socket.EndSend(ar);
+                }, state);
+            }
+            catch
+            {
+                Disconnect();
+            }
+
         }
 
-        private static void Receive()
+        private static void RecieveCallback(IAsyncResult result)
         {
-            _socket.BeginReceiveFrom(state.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv = (ar) =>
+            if (!connected)
+                return;
+
+            try
             {
-                State so = (State)ar.AsyncState;
-                int bytes = _socket.EndReceiveFrom(ar, ref epFrom);
-                _socket.BeginReceiveFrom(so.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv, so);
+                EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
+                State so = (State)result.AsyncState;
+                _socket.EndReceiveFrom(result, ref endPoint);
+                _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, so);
                 ClientEventSystem.PackageRecieved(so.buffer);
-            }, state);
+            }
+            catch
+            {
+                Disconnect();
+            }
+        }
+
+        public static void Disconnect()
+        {
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            state = new State();
+
+            Debug.Log($"Disconnected from server: {ip}:{port}");
+
+            ip = "127.0.0.1";
+            port = 7777;
+            myId = 0;
+            connected = false;
         }
     }
 }

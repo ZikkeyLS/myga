@@ -1,24 +1,22 @@
 ﻿using MygaCross;
-using System;
 using System.Net;
 
 namespace MygaServer
 {
-    [Serializable]
     public class Client
     {
-        public static readonly int dataBufferSize = 4096;
-        public int id;
+        public readonly int id;
+        public readonly EndPoint endPoint;
 
-        public Client(int _clientId)
+        public Client(int _clientId, EndPoint _endPoint)
         {
             id = _clientId;
+            endPoint = _endPoint;
         }
 
-        public void HandleData(byte[] _data)
+        public void Send(Package _package)
         {
-            ServerEventSystem.PackageRecieved(_data);
+            ServerSocket.Send(this, _package);
         }
-
     }
 }

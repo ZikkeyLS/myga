@@ -19,8 +19,8 @@ namespace MygaClient
 
         private void Update()
         {
-           //  PlayerLoginData loginPackage = new PlayerLoginData("erere", "123");
-            // Client.SendUDPData(loginPackage);
+             PlayerLoginData loginPackage = new PlayerLoginData("erere", "123");
+             Client.Send(loginPackage);
         }
 
         private void Login()

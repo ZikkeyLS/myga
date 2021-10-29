@@ -1,6 +1,5 @@
-﻿using MygaCross;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
 
 namespace MygaServer
 {
@@ -21,6 +20,27 @@ namespace MygaServer
             MaxPlayers = maxPlayers;
           
             ServerSocket.Run(ip, port);
+        }
+
+        public static bool ClientExist(EndPoint _endPoint)
+        {
+            foreach (Client client in clients)
+            {
+                if (client.endPoint.ToString() == _endPoint.ToString())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static void TryAddClient(EndPoint _clientEndPoint)
+        {
+            if (ClientExist(_clientEndPoint))
+                return;
+
+            Client client = new Client(clients.Count, _clientEndPoint);
+            clients.Add(client);
+            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
         }
     }
 }
