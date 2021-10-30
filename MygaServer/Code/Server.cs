@@ -1,13 +1,14 @@
-﻿using MygaCross;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
+using MygaCross;
 
 namespace MygaServer
 {
+
     public static class Server
     {
         public static int MaxPlayers { get; private set; } = 1;
-        public static int CurrentPlayers { get; private set; } = 0;
+        public static int CurrentPlayers = 0;
         public static string Ip { get; private set; } = "";
         public static int Port { get; private set; } = 0;
 
@@ -18,40 +19,35 @@ namespace MygaServer
             Ip = ip;
             Port = port;
             MaxPlayers = maxPlayers;
-            ConnectBasicEvents();
-            Socket.Run(ip, port);
+          
+            ServerSocket.Run(ip, port);
         }
 
-        private static void ConnectBasicEvents()
+        public static bool ClientExist(EndPoint _endPoint)
         {
+            foreach (Client client in clients)
+            {
+                if (client.endPoint.ToString() == _endPoint.ToString())
+                    return true;
+            }
 
-            ServerEventSystem.On(ServerEvent.ServerStarted, (eventID) => {
-                Console.WriteLine($"Server started on: {Ip}:{Port} with maximum amount of players: {MaxPlayers}!");
-            });
+            return false;
+        }
 
-            ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
-                CurrentPlayers++;
-                Console.WriteLine("Player connected: " + CurrentPlayers);
+        private static bool ServerFull => CurrentPlayers == MaxPlayers;
 
-                ServerIntroducePackage package = new ServerIntroducePackage("Hello my dear friend!");
-                clients[CurrentPlayers - 1].SendData(package);
-            });
+        public static ConnectStatus TryAddClient(EndPoint _clientEndPoint)
+        {
+            if (ClientExist(_clientEndPoint))
+                return ConnectStatus.already;
 
-            ServerEventSystem.OnPackageRecieved(new PackageRecieved((client, data) => {
-                CheckerPackage package = new CheckerPackage(data);
-                switch (package.packageType)
-                {
-                    case "PlayerLoginData":
-                        PlayerLoginData loginData = new PlayerLoginData(data);
-                        Console.WriteLine(loginData.ToString());
-                        loginData.Dispose();
-                        break;
-                    default:
-                        Console.WriteLine($"Default or unknown package with type: {package.packageType}");
-                        break;
-                }
-                package.Dispose();
-            }));
+            if (ServerFull)
+                return ConnectStatus.full;
+
+            Client client = new Client(clients.Count, _clientEndPoint);
+            clients.Add(client);
+            ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
+            return ConnectStatus.connected;
         }
     }
 }

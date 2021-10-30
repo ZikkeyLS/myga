@@ -4,7 +4,7 @@
     {
         public static void Connect(string ip, int port)
         {
-            Socket.Connect(ip, port);
+            Client.Connect(ip, port);
         }
     }
 }

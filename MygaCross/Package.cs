@@ -6,7 +6,7 @@ namespace MygaCross
     public class Package : IDisposable
     {
         protected string parsedPackageData;
-        protected PackageReader reader;
+        public PackageReader reader;
         public string packageType { get; private set; }
 
         public Package(string typeName = "Package")
@@ -26,6 +26,12 @@ namespace MygaCross
         public void Write(object element)
         {
             parsedPackageData += $"{element};";
+        }
+
+        public void WriteVector3(int[] vector)
+        {
+            for (int i = 0; i < 3; i++)
+                Write(vector[i]);
         }
 
         public void Clear()
@@ -104,6 +110,11 @@ namespace MygaCross
             return Convert.ToInt64(ReadString());
         }
 
+        public bool ReadBool()
+        {
+            return Convert.ToBoolean(ReadString());
+        }
+
         public string ReadString()
         {
             if (OverIndexException())
@@ -111,6 +122,14 @@ namespace MygaCross
 
             string result = values[index];
             index++;
+            return result;
+        }
+
+        public int[] ReadVector()
+        {
+            int[] result = new int[3];
+            for(int i = 0; i < 3; i++)
+                result[i] = ReadInt();
             return result;
         }
 

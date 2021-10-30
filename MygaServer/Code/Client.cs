@@ -1,56 +1,22 @@
 ﻿using MygaCross;
-using System;
-using System.Net.Sockets;
+using System.Net;
 
 namespace MygaServer
 {
     public class Client
     {
-        public TcpClient tcpClient;
-        public NetworkStream tcpStream;
-        public byte[] data = new byte[4096];
+        public readonly int id;
+        public readonly EndPoint endPoint;
 
-        public Client() { }
-
-        public Client(TcpClient tcpClient)
+        public Client(int _clientId, EndPoint _endPoint)
         {
-            Run(tcpClient);
+            id = _clientId;
+            endPoint = _endPoint;
         }
 
-        public void Run(TcpClient tcpClient)
+        public void Send(Package _package)
         {
-            this.tcpClient = tcpClient;
-            tcpStream = tcpClient.GetStream();
-            tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
-        }
-
-        private void RecieveCallback(IAsyncResult _result)
-        {
-            try
-            {
-                int _byteLength = tcpStream.EndRead(_result);
-                if (_byteLength <= 0)
-                {
-                    tcpClient.Close();
-                    tcpStream.Close();
-                    return;
-                }
-
-                ServerEventSystem.PackageRecieved(this, data);
-                tcpStream.BeginRead(data, 0, data.Length, RecieveCallback, null);
-            }
-            catch (Exception _ex)
-            {
-                Console.WriteLine($"Error receiving TCP data: {_ex}");
-                tcpClient.Close();
-                tcpStream.Close();
-            }
-        }
-
-        public void SendData(Package package)
-        {
-            byte[] bytes = package.ToBytes();
-            tcpStream.Write(bytes, 0, bytes.Length);
+            ServerSocket.Send(this, _package);
         }
     }
 }

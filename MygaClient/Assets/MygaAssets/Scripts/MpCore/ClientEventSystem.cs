@@ -1,5 +1,6 @@
 ﻿using MygaCross;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MygaClient
 {
@@ -29,8 +30,12 @@ namespace MygaClient
         public static void PackageRecieved(byte[] data)
         {
             foreach (PackageRecievedData recievedData in packageEvents)
-                if (new CheckerPackage(data).typeOf(recievedData.type) || recievedData.type == "Any")
+            {
+                CheckerPackage package = new CheckerPackage(data);
+
+                if (package.typeOf(recievedData.type) || recievedData.type == "Any")
                     recievedData.packageRecieved(data);
+            }
         }
     }
 }
