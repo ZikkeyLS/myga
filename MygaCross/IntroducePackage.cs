@@ -1,16 +1,16 @@
 ﻿namespace MygaCross
 {
-    public class ServerIntroducePackage : Package
+    public class IntroducePackage : Package
     {
         public string message;
 
-        public ServerIntroducePackage(string _message) : base("ServerIntroducePackage")
+        public IntroducePackage(string _message) : base("IntroducePackage")
         {
             message = _message;
             Write(_message);
         }
 
-        public ServerIntroducePackage(byte[] _data) : base(_data)
+        public IntroducePackage(byte[] _data) : base(_data)
         {
             message = reader.ReadString();
         }

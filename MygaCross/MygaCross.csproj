@@ -41,12 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectPackage.cs" />
+    <Compile Include="ErrorPackage.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Package.cs" />
     <Compile Include="PlayerLoginPackage.cs" />
     <Compile Include="PlayerRegistrationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerIntroducePackage.cs" />
+    <Compile Include="IntroducePackage.cs" />
+    <Compile Include="Status.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
