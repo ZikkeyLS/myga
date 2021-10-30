@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using MygaCross;
 
 namespace MygaServer
 {
@@ -33,14 +34,20 @@ namespace MygaServer
             return false;
         }
 
-        public static void TryAddClient(EndPoint _clientEndPoint)
+        private static bool ServerFull => CurrentPlayers == MaxPlayers;
+
+        public static ConnectStatus TryAddClient(EndPoint _clientEndPoint)
         {
             if (ClientExist(_clientEndPoint))
-                return;
+                return ConnectStatus.already;
+
+            if (ServerFull)
+                return ConnectStatus.full;
 
             Client client = new Client(clients.Count, _clientEndPoint);
             clients.Add(client);
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
+            return ConnectStatus.connected;
         }
     }
 }

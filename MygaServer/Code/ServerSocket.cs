@@ -12,9 +12,10 @@ namespace MygaServer
 
     public static class ServerSocket
     {
-        public static readonly int bufferSize = 8 * 1024;
+        public static readonly int bufferSize = 1024;
         private static readonly Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private static readonly State state = new State();
+        private static bool sending = false;
 
         public static void Run(string ip, int port)
         {
@@ -36,7 +37,20 @@ namespace MygaServer
 
         public static void Send(Client _client, Package _package)
         {
+            if (sending)
+                return;
+
+            sending = true;
             _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _client.endPoint, (ar) =>
+            {
+                sending = false;
+                _socket.EndSend(ar);
+            }, state);
+        }
+
+        public static void Send(EndPoint _endPoint, Package _package)
+        {
+            _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _endPoint, (ar) =>
             {
                 _socket.EndSend(ar);
             }, state);
@@ -71,8 +85,20 @@ namespace MygaServer
             _socket.EndReceiveFrom(_result, ref clientEndPoint);
             _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref clientEndPoint, RecieveCallback, so);
 
-            Server.TryAddClient(clientEndPoint);
-            ServerEventSystem.PackageRecieved(so.buffer);
+            ConnectStatus connectStatus = Server.TryAddClient(clientEndPoint);
+            switch (connectStatus) 
+            {
+                case ConnectStatus.connected:
+                    ServerEventSystem.PackageRecieved(so.buffer);
+                    break;
+                case ConnectStatus.already:
+                    ServerEventSystem.PackageRecieved(so.buffer);
+                    break;
+            }
+            
+            if(connectStatus == ConnectStatus.full || connectStatus == ConnectStatus.connected)
+                using (ConnectPackage package = new ConnectPackage(connectStatus))
+                    Send(clientEndPoint, package);
         }
     }
 }

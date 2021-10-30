@@ -31,14 +31,13 @@ namespace MygaServer
                 switch (package.packageType)
                 {
                     case "PlayerLoginData":
-                        PlayerLoginData loginData = new PlayerLoginData(data);
-                        Console.WriteLine(loginData.ToString());
-                        loginData.Dispose();
+                        using (PlayerLoginData loginData = new PlayerLoginData(data))
+                            Console.WriteLine(loginData.ToString());
                         break;
                     case "IntroducePackage":
-                        IntroducePackage introduce = new IntroducePackage(data);
-                        Console.WriteLine($"Data from client: {introduce.message}");
-                        introduce.Dispose();
+                        using (IntroducePackage introduce = new IntroducePackage(data))
+                            if (introduce.message != "")
+                                Console.WriteLine($"Data from client: {introduce.message}");
                         break;
                     default:
                         Console.WriteLine($"Default or unknown package with type: {package.packageType}");

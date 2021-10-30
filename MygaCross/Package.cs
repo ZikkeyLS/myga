@@ -28,6 +28,12 @@ namespace MygaCross
             parsedPackageData += $"{element};";
         }
 
+        public void WriteVector3(int[] vector)
+        {
+            for (int i = 0; i < 3; i++)
+                Write(vector[i]);
+        }
+
         public void Clear()
         {
             parsedPackageData = string.Empty;
@@ -104,6 +110,11 @@ namespace MygaCross
             return Convert.ToInt64(ReadString());
         }
 
+        public bool ReadBool()
+        {
+            return Convert.ToBoolean(ReadString());
+        }
+
         public string ReadString()
         {
             if (OverIndexException())
@@ -111,6 +122,14 @@ namespace MygaCross
 
             string result = values[index];
             index++;
+            return result;
+        }
+
+        public int[] ReadVector()
+        {
+            int[] result = new int[3];
+            for(int i = 0; i < 3; i++)
+                result[i] = ReadInt();
             return result;
         }
 

@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System;
 using MygaCross;
-using System.Text;
 
 namespace MygaClient 
 {
@@ -18,29 +17,32 @@ namespace MygaClient
         private static Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private static State state = new State();
 
-        public static string ip { get; private set; } = "127.0.0.1";
-        public static int port { get; private set; } = 7777;
+        public static string serverIp { get; private set; } = "127.0.0.1";
+        public static int serverPort { get; private set; } = 7777;
         public static int myId { get; private set; } = 0;
         public static bool connected { get; private set; } = false;
 
         public static void Connect(string _ip, int _port)
         {
-            ip = _ip;
-            port = _port;
+            serverIp = _ip;
+            serverPort = _port;
 
-            _socket.Connect(IPAddress.Parse(ip), port);
+            _socket.Connect(IPAddress.Parse(serverIp), serverPort);
             EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             _socket.BeginReceiveFrom(state.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, state);
 
-            connected = true;
             Handler.ConnectEvents();
+            using(IntroducePackage package = new IntroducePackage(""))
+                Send(package, true);
         }
 
-        public static void Send(Package _package)
+        public static void SetConnectStatus(bool _connected) { connected = _connected; }
+
+        public static void Send(Package _package, bool ignoreConnectStatus = false)
         {
             try
             {
-                if (!connected)
+                if (!connected && !ignoreConnectStatus)
                     return;
 
                 _socket.BeginSend(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, (ar) =>
@@ -52,14 +54,10 @@ namespace MygaClient
             {
                 Disconnect();
             }
-
         }
 
         private static void RecieveCallback(IAsyncResult result)
         {
-            if (!connected)
-                return;
-
             try
             {
                 EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -68,8 +66,9 @@ namespace MygaClient
                 _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, so);
                 ClientEventSystem.PackageRecieved(so.buffer);
             }
-            catch
+            catch(Exception _ex)
             {
+                Debug.Log(_ex.Message);
                 Disconnect();
             }
         }
@@ -79,10 +78,10 @@ namespace MygaClient
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             state = new State();
 
-            Debug.Log($"Disconnected from server: {ip}:{port}");
+            Debug.Log($"Disconnected from server: {serverIp}:{serverPort}");
 
-            ip = "127.0.0.1";
-            port = 7777;
+            serverIp = "127.0.0.1";
+            serverPort = 7777;
             myId = 0;
             connected = false;
         }
