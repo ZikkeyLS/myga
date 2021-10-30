@@ -41,6 +41,7 @@ namespace MygaServer
                 Server.clients.Remove(this);
                 hearthBeat = DateTime.MinValue;
                 endPoint = null;
+
                 return;
             }
 
