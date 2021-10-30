@@ -11,7 +11,7 @@ namespace MygaServer
         private DateTime hearthBeat;
 
         public readonly int id;
-        public readonly EndPoint endPoint;
+        public EndPoint endPoint { get; private set; }
 
         public Client(int _clientId, EndPoint _endPoint)
         {
@@ -39,6 +39,8 @@ namespace MygaServer
             if (msDelay > maxHeartbeatDelay)
             {
                 Server.clients.Remove(this);
+                hearthBeat = DateTime.MinValue;
+                endPoint = null;
                 return;
             }
 
