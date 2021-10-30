@@ -57,6 +57,7 @@ namespace MygaServer
 
             Client client = new Client(clients.Count, _clientEndPoint);
             clients.Add(client);
+
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
             return ConnectStatus.connected;
         }
