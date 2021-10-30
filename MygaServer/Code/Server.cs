@@ -23,6 +23,17 @@ namespace MygaServer
             ServerSocket.Run(ip, port);
         }
 
+        public static Client GetClient(EndPoint _clientEndPoint)
+        {
+            foreach (Client client in clients)
+            {
+                if (client.endPoint.ToString() == _clientEndPoint.ToString())
+                    return client;
+            }
+
+            return null;
+        }
+
         public static bool ClientExist(EndPoint _endPoint)
         {
             foreach (Client client in clients)
@@ -46,6 +57,7 @@ namespace MygaServer
 
             Client client = new Client(clients.Count, _clientEndPoint);
             clients.Add(client);
+
             ServerEventSystem.StartEvent(ServerEvent.ClientConnected);
             return ConnectStatus.connected;
         }

@@ -11,11 +11,8 @@ namespace MygaClient
         [SerializeField] private string nickname = "Zikkey";
         [SerializeField] private string password = "123321";
 
-        private int i = 0;
-
         private void Start()
         {
-            print(new Vector3(0, 1, 2));
             Login();
         }
 
