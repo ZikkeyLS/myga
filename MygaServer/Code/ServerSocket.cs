@@ -59,22 +59,16 @@ namespace MygaServer
         public static void SendAll(Package _package, int _exceptID = -1)
         {
             foreach(Client client in Server.clients)
-            {
                 if(client.id != _exceptID)
                     Send(client, _package);
-            }
         }
 
         public static void SendAll(Package _package, int[] _exceptIDs)
         {
             foreach (Client client in Server.clients)
-            {
                 foreach(int _exceptID in _exceptIDs)
-                {
                     if (client.id != _exceptID)
                         Send(client, _package);
-                }
-            }
         }
 
         private static void RecieveCallback(IAsyncResult _result)
@@ -84,21 +78,26 @@ namespace MygaServer
 
             _socket.EndReceiveFrom(_result, ref clientEndPoint);
             _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref clientEndPoint, RecieveCallback, so);
+            TryConnectClient(clientEndPoint, so);
+        }
 
-            ConnectStatus connectStatus = Server.TryAddClient(clientEndPoint);
-            switch (connectStatus) 
+        private static void TryConnectClient(EndPoint _clientEndPoint, State _so)
+        {
+            ConnectStatus connectStatus = Server.TryAddClient(_clientEndPoint);
+            switch (connectStatus)
             {
                 case ConnectStatus.connected:
-                    ServerEventSystem.PackageRecieved(so.buffer);
+                    ServerEventSystem.PackageRecieved(_so.buffer);
                     break;
                 case ConnectStatus.already:
-                    ServerEventSystem.PackageRecieved(so.buffer);
+                    ServerEventSystem.PackageRecieved(_so.buffer);
+                    Server.GetClient(_clientEndPoint).UpdateHeartbeat();
                     break;
             }
-            
-            if(connectStatus == ConnectStatus.full || connectStatus == ConnectStatus.connected)
+
+            if (connectStatus == ConnectStatus.full || connectStatus == ConnectStatus.connected)
                 using (ConnectPackage package = new ConnectPackage(connectStatus))
-                    Send(clientEndPoint, package);
+                    Send(_clientEndPoint, package);
         }
     }
 }

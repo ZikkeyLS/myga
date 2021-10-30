@@ -56,7 +56,6 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\ThreadManager.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\ClientEventSystem.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Client.cs" />
