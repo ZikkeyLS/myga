@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MygaCross
+﻿namespace MygaCross
 {
     public class ConnectPackage : Package
     {

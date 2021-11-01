@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectPackage.cs" />
+    <Compile Include="DisconnectPackage.cs" />
     <Compile Include="ErrorPackage.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Package.cs" />

@@ -16,8 +16,6 @@ namespace MygaClient
 
         public static void OnPackage(byte[] data)
         {
-            using (CheckerPackage checkerPackage = new CheckerPackage(data))
-                Debug.Log(checkerPackage.packageType);
         }
 
         public static void OnIntroducePackage(byte[] data)
@@ -38,6 +36,9 @@ namespace MygaClient
 
         public static void OnConnectPackage(byte[] data)
         {
+            if (Client.connected)
+                return;
+
             using(ConnectPackage package = new ConnectPackage(data))
             {
                 switch (package.status)
