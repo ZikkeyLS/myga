@@ -15,7 +15,6 @@ namespace MygaServer
         public static readonly int bufferSize = 1024;
         private static readonly Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private static readonly State state = new State();
-        private static bool sending = false;
 
         public static void Run(string ip, int port)
         {
@@ -37,23 +36,34 @@ namespace MygaServer
 
         public static void Send(Client _client, Package _package)
         {
-            if (sending)
-                return;
-
-            sending = true;
-            _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _client.endPoint, (ar) =>
+            try
             {
-                sending = false;
-                _socket.EndSend(ar);
-            }, state);
+                _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _client.endPoint, (ar) =>
+                {
+                    _socket.EndSend(ar);
+                }, state);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine($"Error while sending data to client: {_ex}. Disconnecting client!");
+                _client.Disconnect();
+            }
+
         }
 
         public static void Send(EndPoint _endPoint, Package _package)
         {
-            _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _endPoint, (ar) =>
+            try
             {
-                _socket.EndSend(ar);
-            }, state);
+                _socket.BeginSendTo(_package.ToBytes(), 0, _package.ToBytes().Length, SocketFlags.None, _endPoint, (ar) =>
+                {
+                    _socket.EndSend(ar);
+                }, state);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine($"Error while sending data: {_ex}.");
+            }
         }
 
         public static void SendAll(Package _package, int _exceptID = -1)
