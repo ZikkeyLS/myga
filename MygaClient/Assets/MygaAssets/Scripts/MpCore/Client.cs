@@ -64,7 +64,8 @@ namespace MygaClient
                 State so = (State)result.AsyncState;
                 _socket.EndReceiveFrom(result, ref endPoint);
                 _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, so);
-                ClientEventSystem.PackageRecieved(so.buffer);
+
+                Network.mygaConnection.AddPackage(so.buffer);
             }
             catch(Exception _ex)
             {

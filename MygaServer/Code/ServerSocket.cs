@@ -90,14 +90,26 @@ namespace MygaServer
                     ServerEventSystem.PackageRecieved(_so.buffer);
                     break;
                 case ConnectStatus.already:
-                    ServerEventSystem.PackageRecieved(_so.buffer);
-                    Server.GetClient(_clientEndPoint).UpdateHeartbeat();
+                    if (!DisconnectCheck(_clientEndPoint, _so))
+                        ServerEventSystem.PackageRecieved(_so.buffer);
                     break;
             }
 
             if (connectStatus == ConnectStatus.full || connectStatus == ConnectStatus.connected)
                 using (ConnectPackage package = new ConnectPackage(connectStatus))
                     Send(_clientEndPoint, package);
+        }
+
+        private static bool DisconnectCheck(EndPoint _clientEndPoint, State _so)
+        {
+            CheckerPackage package = new CheckerPackage(_so.buffer);
+            if (package.packageType == "DisconnectPackage")
+            {
+                Server.GetClient(_clientEndPoint).Disconnect();
+                return true;
+            }
+
+            return false;
         }
     }
 }

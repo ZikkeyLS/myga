@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{7C823639-82CD-9695-C272-A2D48B1E3172}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\ClientEventSystem.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\MpCore\MygaConnection.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Client.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
