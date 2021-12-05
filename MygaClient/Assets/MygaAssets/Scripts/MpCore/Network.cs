@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using MygaCross;
+using UnityEngine;
 
 namespace MygaClient
 {
     public static class Network
     {
-        public static MygaConnection mygaConnection;
+        public static MygaThreading mygaConnection;
 
         public static void Connect(string ip, int port)
         {
@@ -16,7 +17,7 @@ namespace MygaClient
         {
             GameObject connection = GameObject.Instantiate(new GameObject("MygaConnection"));
             GameObject.DontDestroyOnLoad(connection);
-            mygaConnection = connection.AddComponent<MygaConnection>();
+            mygaConnection = connection.AddComponent<MygaThreading>();
         }
     }
 }
