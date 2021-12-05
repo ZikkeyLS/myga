@@ -90,8 +90,8 @@ namespace MygaServer
                     ServerEventSystem.PackageRecieved(_so.buffer);
                     break;
                 case ConnectStatus.already:
-                    if (!DisconnectCheck(_clientEndPoint, _so))
-                        ServerEventSystem.PackageRecieved(_so.buffer);
+                    DisconnectCheck(_clientEndPoint, _so);
+                    ServerEventSystem.PackageRecieved(_so.buffer);
                     break;
             }
 
@@ -106,6 +106,7 @@ namespace MygaServer
             if (package.packageType == "DisconnectPackage")
             {
                 Server.GetClient(_clientEndPoint).Disconnect();
+                ServerEventSystem.StartEvent(ServerEvent.ClientDisconnected);
                 return true;
             }
 

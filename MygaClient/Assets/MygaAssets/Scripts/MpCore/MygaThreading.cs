@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MygaClient 
 {
-    public class MygaConnection : MonoBehaviour
+    public class MygaThreading : MonoBehaviour
     {
         public List<byte[]> uncompletedPackages { get; private set; } = new List<byte[]>();
         public List<byte[]> completedPackages { get; private set; } = new List<byte[]>();

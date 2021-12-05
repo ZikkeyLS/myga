@@ -13,8 +13,8 @@ namespace MygaServer
             });
 
             ServerEventSystem.On(ServerEvent.ClientConnected, (eventID) => {
-                Console.WriteLine("Player connected: " + Server.CurrentPlayers);
                 Server.CurrentPlayers++;
+                Console.WriteLine("Player connected: " + Server.CurrentPlayers);
 
                 IntroducePackage package = new IntroducePackage("Hello my dear friend!");
                 Server.clients[Server.CurrentPlayers - 1].Send(package);
@@ -26,25 +26,21 @@ namespace MygaServer
                 Console.WriteLine("Player disconnected: " + Server.CurrentPlayers);
             });
 
-            ServerEventSystem.OnPackageRecieved(new PackageRecieved((data) => {
-                CheckerPackage package = new CheckerPackage(data);
-                switch (package.packageType)
-                {
-                    case "PlayerLoginData":
-                        using (PlayerLoginData loginData = new PlayerLoginData(data))
-                            Console.WriteLine(loginData.ToString());
-                        break;
-                    case "IntroducePackage":
-                        using (IntroducePackage introduce = new IntroducePackage(data))
-                            if (introduce.message != "")
-                                Console.WriteLine($"Data from client: {introduce.message}");
-                        break;
-                    default:
-                        Console.WriteLine($"Default or unknown package with type: {package.packageType}");
-                        break;
-                }
-                package.Dispose();
-            }));
+            ServerEventSystem.OnPackageRecieved(new PackageRecieved(OnPlayerLoginPackage), "PlayerLoginData");
+            ServerEventSystem.OnPackageRecieved(new PackageRecieved(OnIntroducePackage), "IntroducePackage");
+        }
+
+        public static void OnPlayerLoginPackage(byte[] _data)
+        {
+            using (PlayerLoginData loginData = new PlayerLoginData(_data))
+                Console.WriteLine(loginData.ToString());
+        }
+
+        public static void OnIntroducePackage(byte[] _data)
+        {
+            using (IntroducePackage introduce = new IntroducePackage(_data))
+                if (introduce.message != "")
+                    Console.WriteLine($"Data from client: {introduce.message}");
         }
     }
 }

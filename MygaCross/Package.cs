@@ -15,23 +15,32 @@ namespace MygaCross
             Write(typeName);
         }
 
-        public Package(byte[] bytes)
+        public Package(byte[] _bytes)
         {
-            parsedPackageData = Encoding.UTF8.GetString(bytes);
+            parsedPackageData = Encoding.UTF8.GetString(_bytes);
             reader = new PackageReader(parsedPackageData);
 
             packageType = reader.ReadString();
         }
 
-        public void Write(object element)
+        public void Write(object _element)
         {
-            parsedPackageData += $"{element};";
+            parsedPackageData += $"{_element};";
         }
 
-        public void WriteVector3(int[] vector)
+        public void WriteVector3(MVector3 _vector)
         {
-            for (int i = 0; i < 3; i++)
-                Write(vector[i]);
+            Write(_vector.x);
+            Write(_vector.y);
+            Write(_vector.z);
+        }
+
+        public void WriteQuaternion(MQuaternion _quaternion)
+        {
+            Write(_quaternion.x);
+            Write(_quaternion.y);
+            Write(_quaternion.z);
+            Write(_quaternion.w);
         }
 
         public void Clear()
@@ -125,12 +134,14 @@ namespace MygaCross
             return result;
         }
 
-        public int[] ReadVector()
+        public MVector3 ReadVector3()
         {
-            int[] result = new int[3];
-            for(int i = 0; i < 3; i++)
-                result[i] = ReadInt();
-            return result;
+            return new MVector3(ReadFloat(), ReadFloat(), ReadFloat());
+        }
+
+        public MQuaternion ReadQuaternion()
+        {
+            return new MQuaternion(ReadFloat(), ReadFloat(), ReadFloat(), ReadFloat());
         }
 
         private bool OverIndexException()
