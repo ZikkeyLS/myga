@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace MygaCross
 {
-    public class MVector3
+    public struct MVector3
     {
-        public float x = 0;
-        public float y = 0;
-        public float z = 0;
-
-        public MVector3()
-        {
-        }
+        public float x;
+        public float y;
+        public float z;
 
         public MVector3(float _x, float _y)
         {
             x = _x;
             y = _y;
+            z = 0;
         }
 
         public MVector3(float _x, float _y, float _z)
@@ -38,21 +35,19 @@ namespace MygaCross
         public static MVector3 operator /(MVector3 vector, MVector3 _vector) => new MVector3(vector.x / _vector.x, vector.y / _vector.y, vector.z / _vector.z);
     }
 
-    public class MQuaternion
+    public struct MQuaternion
     {
-        public float x = 0;
-        public float y = 0;
-        public float z = 0;
-        public float w = 0;
-
-        public MQuaternion()
-        {
-        }
+        public float x;
+        public float y;
+        public float z;
+        public float w;
 
         public MQuaternion(float _x, float _y)
         {
             x = _x;
             y = _y;
+            z = 0;
+            w = 0;
         }
 
         public MQuaternion(float _x, float _y, float _z)
@@ -60,6 +55,7 @@ namespace MygaCross
             x = _x;
             y = _y;
             z = _z;
+            w = 0;
         }
 
         public MQuaternion(float _x, float _y, float _z, float _w)
@@ -70,7 +66,7 @@ namespace MygaCross
             w = _w;
         }
 
-        public static readonly  MQuaternion zero = new MQuaternion(0, 0, 0, 0);
+        public static readonly  MQuaternion zero = new MQuaternion(0, 0, 0, 1);
         public static readonly MQuaternion one = new MQuaternion(1, 1, 1, 1);
     }
 }
