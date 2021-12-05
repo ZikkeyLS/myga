@@ -35,6 +35,35 @@ namespace MygaCross
         public static MVector3 operator /(MVector3 vector, MVector3 _vector) => new MVector3(vector.x / _vector.x, vector.y / _vector.y, vector.z / _vector.z);
     }
 
+    public struct MVector2
+    {
+        public float x;
+        public float y;
+        public float z;
+
+        public MVector2(float _x, float _y)
+        {
+            x = _x;
+            y = _y;
+            z = 0;
+        }
+
+        public MVector2(float _x, float _y, float _z)
+        {
+            x = _x;
+            y = _y;
+            z = _z;
+        }
+
+        public static readonly MVector3 zero = new MVector3(0, 0, 0);
+        public static readonly MVector3 one = new MVector3(1, 1, 1);
+
+        public static MVector2 operator +(MVector2 vector, MVector2 _vector) => new MVector2(vector.x + _vector.x, vector.y + _vector.y);
+        public static MVector2 operator -(MVector2 vector, MVector2 _vector) => new MVector2(vector.x - _vector.x, vector.y - _vector.y);
+        public static MVector2 operator *(MVector2 vector, MVector2 _vector) => new MVector2(vector.x * _vector.x, vector.y * _vector.y);
+        public static MVector2 operator /(MVector2 vector, MVector2 _vector) => new MVector2(vector.x / _vector.x, vector.y / _vector.y);
+    }
+
     public struct MQuaternion
     {
         public float x;
