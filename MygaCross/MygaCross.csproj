@@ -45,6 +45,7 @@
     <Compile Include="DisconnectPackage.cs" />
     <Compile Include="ErrorPackage.cs" />
     <Compile Include="Formatter.cs" />
+    <Compile Include="InstantiatePackage.cs" />
     <Compile Include="Package.cs" />
     <Compile Include="PlayerLoginPackage.cs" />
     <Compile Include="PlayerRegistrationPackage.cs" />
