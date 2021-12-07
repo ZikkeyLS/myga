@@ -9,13 +9,13 @@ namespace MygaServer
         public int id { get; private set; } = 0;
         public List<IMPAddon> addons { get; private set; } = new List<IMPAddon>();
 
-        public virtual void Initialize(int id, int clientID = -1, IMPAddon[] addons = null)
+        public virtual void Initialize(int id, int clientID = -1, in IMPAddon[] addons = null)
         {
             this.addons.AddRange(addons);
             Initialize(id, clientID);
         }
 
-        public virtual void Initialize(int id, int clientID = -1, List<IMPAddon> addons = null)
+        public virtual void Initialize(int id, int clientID = -1, in List<IMPAddon> addons = null)
         {
             this.addons.AddRange(addons);
             Initialize(id, clientID);
