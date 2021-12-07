@@ -15,21 +15,34 @@ namespace MygaClient
         [ReadOnly] [SerializeField] private bool mine = false;
         public int Mine => id;
 
-        public readonly List<Package> data = new List<Package>();
+        public List<IMPAddon> addons { get; private set; } = new List<IMPAddon>();
 
-        public void Connect(int _id, int _clientID = -1, bool _mine = false)
+        public virtual void Initialize(int id, int clientID = -1, IMPAddon[] addons = null)
         {
-            id = _id;
-            clientID = _clientID;
-            mine = _mine ? _clientID >= 0 : false;
-
-            if (_mine && _clientID < 0)
-                    Debug.Log("You can't have a controllable object without having your client id on it.");
+            this.addons.AddRange(addons);
+            Initialize(id, clientID);
         }
 
-        public void LinkData(Package _data)
+        public virtual void Initialize(int id, int clientID = -1, List<IMPAddon> addons = null)
         {
-            data.Add(_data);
+            this.addons.AddRange(addons);
+            Initialize(id, clientID);
+        }
+
+        public virtual void Initialize(int id, int clientID = -1)
+        {
+            this.id = id;
+            if (clientID >= 0)
+                this.clientID = clientID;
+        }
+
+        public T GetAddon<T>()
+        {
+            foreach (IMPAddon addon in addons)
+                if (addon is T)
+                    return (T)addon;
+
+            return default(T);
         }
     }
 }
