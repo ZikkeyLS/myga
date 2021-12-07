@@ -2,10 +2,9 @@
 {
     public static class Formatter
     {
-        public static bool OfType<T>(object obj)
+        public static bool OfType<T>(this object obj)
         {
             return obj is T;
-
         }
     }
 }

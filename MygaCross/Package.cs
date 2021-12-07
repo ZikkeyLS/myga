@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using UnityEngine;
 
 namespace MygaCross
 {
@@ -28,14 +29,14 @@ namespace MygaCross
             parsedPackageData += $"{_element};";
         }
 
-        public void WriteVector3(MVector3 _vector)
+        public void WriteVector3(Vector3 _vector)
         {
             Write(_vector.x);
             Write(_vector.y);
             Write(_vector.z);
         }
 
-        public void WriteQuaternion(MQuaternion _quaternion)
+        public void WriteQuaternion(Quaternion _quaternion)
         {
             Write(_quaternion.x);
             Write(_quaternion.y);
@@ -134,14 +135,14 @@ namespace MygaCross
             return result;
         }
 
-        public MVector3 ReadVector3()
+        public Vector3 ReadVector3()
         {
-            return new MVector3(ReadFloat(), ReadFloat(), ReadFloat());
+            return new Vector3(ReadFloat(), ReadFloat(), ReadFloat());
         }
 
-        public MQuaternion ReadQuaternion()
+        public Quaternion ReadQuaternion()
         {
-            return new MQuaternion(ReadFloat(), ReadFloat(), ReadFloat(), ReadFloat());
+            return new Quaternion(ReadFloat(), ReadFloat(), ReadFloat(), ReadFloat());
         }
 
         private bool OverIndexException()
