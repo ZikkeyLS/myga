@@ -5,6 +5,7 @@
         public static bool OfType<T>(object obj)
         {
             return obj is T;
+
         }
     }
 }

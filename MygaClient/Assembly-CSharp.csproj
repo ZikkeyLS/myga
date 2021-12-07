@@ -57,14 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\ClientEventSystem.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Client.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpModules\MygaObject.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\MygaThreading.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpModules\MathConvert.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\EditorContent\ReadOnlyProperty.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\MpCore\Handler.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\MpModules\MygaObject.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\EditorContent\ReadOnlyProperty.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\MpModules\MathConvert.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MygaAssets\Plugins\MygaCross.dll" />
@@ -292,11 +292,11 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="MygaCross">
       <HintPath>Assets\MygaAssets\Plugins\MygaCross.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
