@@ -82,16 +82,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Content\Interfaces.cs" />
-    <Compile Include="Packages\ConnectPackage.cs" />
-    <Compile Include="Packages\DisconnectPackage.cs" />
-    <Compile Include="Packages\ErrorPackage.cs" />
-    <Compile Include="Packages\Formatter.cs" />
+    <Compile Include="Packages\Types\Connection\ConnectPackage.cs" />
+    <Compile Include="Packages\Types\Connection\DisconnectPackage.cs" />
+    <Compile Include="Packages\Types\Connection\ErrorPackage.cs" />
+    <Compile Include="Content\Formatter.cs" />
     <Compile Include="Packages\Package.cs" />
-    <Compile Include="Packages\PlayerLoginPackage.cs" />
-    <Compile Include="Packages\PlayerRegistrationPackage.cs" />
+    <Compile Include="Packages\Types\Account\PlayerLoginPackage.cs" />
+    <Compile Include="Packages\Types\Account\PlayerRegistrationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Packages\IntroducePackage.cs" />
-    <Compile Include="Packages\Status.cs" />
+    <Compile Include="Packages\Types\Connection\IntroducePackage.cs" />
+    <Compile Include="Content\Status.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
