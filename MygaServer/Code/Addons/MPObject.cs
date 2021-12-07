@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MygaCross;
+using System.Collections.Generic;
 
 namespace MygaServer
 {
@@ -35,12 +36,5 @@ namespace MygaServer
 
             return default(T);
         }
-    }
-
-    public interface IMPAddon
-    {
-        string error { get; set; }
-        bool initialised { get; set; }
-        void Intitialize(params object[] parametres);
     }
 }
