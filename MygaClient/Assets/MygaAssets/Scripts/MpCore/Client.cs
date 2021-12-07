@@ -80,6 +80,7 @@ namespace MygaClient
             state = new State();
 
             Debug.Log($"Disconnected from server: {serverIp}:{serverPort}");
+            ClientEventSystem.StartEvent(ClientEvent.ClientDisconnected);
 
             serverIp = "127.0.0.1";
             serverPort = 7777;

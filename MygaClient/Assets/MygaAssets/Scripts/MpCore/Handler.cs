@@ -45,6 +45,7 @@ namespace MygaClient
                 {
                     case ConnectStatus.connected:
                         Client.SetConnectStatus(true);
+                        ClientEventSystem.StartEvent(ClientEvent.ClientConnected);
                         break;
                     case ConnectStatus.full:
                         Debug.LogWarning($"Can't connect to server: {Client.serverIp}:{Client.serverPort}. Server is full!");
