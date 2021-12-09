@@ -5,7 +5,7 @@
         public string username;
         public string password;
 
-        public PlayerRegistrationPackage(string _username, string _password) : base("PlayerLoginData")
+        public PlayerRegistrationPackage(string _username, string _password) : base("PlayerRegistationData")
         {
             username = _username;
             password = _password;

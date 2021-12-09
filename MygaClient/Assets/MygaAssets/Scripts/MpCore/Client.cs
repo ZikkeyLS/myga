@@ -65,7 +65,7 @@ namespace MygaClient
                 _socket.EndReceiveFrom(result, ref endPoint);
                 _socket.BeginReceiveFrom(so.buffer, 0, bufferSize, SocketFlags.None, ref endPoint, RecieveCallback, so);
 
-                Network.mygaConnection.AddPackage(so.buffer);
+                MygaNetwork.mygaConnection.AddPackage(so.buffer);
             }
             catch(Exception _ex)
             {

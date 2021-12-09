@@ -1,9 +1,10 @@
 ﻿using MygaCross;
 using UnityEngine;
 
+
 namespace MygaClient
 {
-    public static class Network
+    public static class MygaNetwork
     {
         public static MygaThreading mygaConnection;
 

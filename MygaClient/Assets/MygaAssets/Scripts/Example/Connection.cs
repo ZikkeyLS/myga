@@ -18,7 +18,7 @@ namespace MygaClient
 
         private void Login()
         {
-            Network.Connect(ip, port);
+            MygaNetwork.Connect(ip, port);
         }
     }
 }
