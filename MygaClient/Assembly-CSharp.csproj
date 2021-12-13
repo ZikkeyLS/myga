@@ -60,10 +60,11 @@
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Client.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\MygaThreading.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Handler.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Connection.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpModules\MygaObject.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\EditorContent\ReadOnlyProperty.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Network.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Modules\ActorMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MygaAssets\Plugins\UnityEngine.ARModule.dll" />

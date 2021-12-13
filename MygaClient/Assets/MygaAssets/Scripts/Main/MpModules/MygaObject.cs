@@ -17,6 +17,12 @@ namespace MygaClient
 
         public List<IMPAddon> addons { get; private set; } = new List<IMPAddon>();
 
+        public void AddAddon(IMPAddon addon, params object[] parametres)
+        {
+            addons.Add(addon);
+            addon.Intitialize(parametres);
+        }
+
         public virtual void Initialize(int id, int clientID = -1, IMPAddon[] addons = null)
         {
             this.addons.AddRange(addons);
