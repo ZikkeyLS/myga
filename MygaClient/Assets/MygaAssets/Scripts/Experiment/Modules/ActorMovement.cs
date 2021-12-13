@@ -6,7 +6,8 @@ using UnityEngine;
 public class ActorMovement : IMPAddon
 {
     public string error { get => error; set => error = value; }
-    public bool initialised { get => initialised; set => initialised = value; }
+
+    private float speed = 1; 
 
     public void Intitialize(params object[] parametres)
     {

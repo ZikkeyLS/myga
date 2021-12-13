@@ -9,7 +9,6 @@ namespace MygaCross
     public interface IMPAddon
     {
         string error { get; set; }
-        bool initialised { get; set; }
         void Intitialize(params object[] parametres);
     }
 }

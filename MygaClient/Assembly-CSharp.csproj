@@ -60,43 +60,14 @@
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Client.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\MygaThreading.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Handler.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Modules\ActorMovement.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Experiment\Connection.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpModules\MygaObject.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\EditorContent\ReadOnlyProperty.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Network.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Modules\ActorMovement.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ARModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.InputModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.GridModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AccessibilityModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.PerformanceReportingModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.IMGUIModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ClusterRendererModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.DSPGraphModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ClothModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.PhysicsModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.HotReloadModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AssetBundleModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.CoreModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AIModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ParticleSystemModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.JSONSerializeModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ImageConversionModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AnimationModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.InputLegacyModule.dll" />
     <None Include="Assets\MygaAssets\Plugins\MygaCross.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.LocalizationModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.CrashReportingModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.ClusterInputModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.DirectorModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AudioModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.Physics2DModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.AndroidJNIModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.GameCenterModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.GIModule.dll" />
-    <None Include="Assets\MygaAssets\Plugins\UnityEngine.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -321,95 +292,8 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\Games\Unity\Unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.Physics2DModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.IMGUIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.PerformanceReportingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GridModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.GridModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AndroidJNIModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AndroidJNIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ARModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ARModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AccessibilityModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ClusterInputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.GameCenterModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ClusterRendererModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.DirectorModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AssetBundleModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GIModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.GIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ImageConversionModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AIModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClothModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ClothModule.dll</HintPath>
-    </Reference>
     <Reference Include="MygaCross">
       <HintPath>Assets\MygaAssets\Plugins\MygaCross.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.JSONSerializeModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.CrashReportingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.InputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.LocalizationModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.LocalizationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.DSPGraphModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.DSPGraphModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HotReloadModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.HotReloadModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.ParticleSystemModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>Assets\MygaAssets\Plugins\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>

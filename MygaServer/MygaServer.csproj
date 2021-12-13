@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,34 +12,54 @@
 
   <ItemGroup>
     <Reference Include="UnityEngine">
-      <HintPath>Unity\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>Unity\Managed\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.AIModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>Unity\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.AnimationModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>Unity\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.CoreModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>Unity\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.InputLegacyModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>Unity\Managed\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.InputModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>Unity\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.LocalizationModule">
-      <HintPath>Unity\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.LocalizationModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>Unity\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.Physics2DModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>Unity\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\MygaBinary\UnityEngine.PhysicsModule.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 
