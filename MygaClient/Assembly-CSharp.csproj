@@ -56,15 +56,14 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\ClientEventSystem.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Client.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\MygaThreading.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Handler.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\ClientEventSystem.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Client.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\MygaThreading.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Handler.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Example\Connection.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpModules\MygaObject.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\EditorContent\ReadOnlyProperty.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\MpCore\Network.cs" />
-    <Compile Include="Assets\MyGame\Connect.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpModules\MygaObject.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\EditorContent\ReadOnlyProperty.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Network.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MygaAssets\Plugins\UnityEngine.ARModule.dll" />

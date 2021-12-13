@@ -15,7 +15,7 @@ namespace MygaServer
                     ServerSocket.Close();
                     Environment.Exit(0);
                 }
-            } 
+            }
         }
     }
 }
