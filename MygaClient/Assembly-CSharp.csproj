@@ -60,11 +60,12 @@
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Client.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\MygaThreading.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Handler.cs" />
-    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Modules\ActorMovement.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Experiment\Modules\MygaTransform.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Experiment\Connection.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpModules\MygaObject.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\EditorContent\ReadOnlyProperty.cs" />
     <Compile Include="Assets\MygaAssets\Scripts\Main\MpCore\Network.cs" />
+    <Compile Include="Assets\MygaAssets\Scripts\Main\MpModules\MPAddon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MygaAssets\Plugins\MygaCross.dll" />

@@ -9,52 +9,40 @@ namespace MygaClient
         [ReadOnly] [SerializeField] private int id = 0;
         public int ID => id;
 
-        [ReadOnly] [SerializeField] private int clientID = -1;
+        [ReadOnly] [SerializeField] private int? clientID = null;
         public int ClientID => id;
 
         [ReadOnly] [SerializeField] private bool mine = false;
         public int Mine => id;
 
-        public List<IMPAddon> addons { get; private set; } = new List<IMPAddon>();
+        public List<MPAddon> addons { get; private set; } = new List<MPAddon>();
 
-        public void AddAddon(IMPAddon addon, params object[] parametres)
+        public void Initialize(int _id, int _clientID = -1, bool _mine = false)
+        {
+            id = _id;
+            if(_clientID > -1)
+                clientID = _clientID;
+
+            mine = _mine;
+        }
+
+        public void AddAddon(MPAddon addon)
         {
             addons.Add(addon);
-            addon.Intitialize(parametres);
         }
 
-        public virtual void Initialize(int id, int clientID = -1, bool mine = false, IMPAddon[] addons = null)
+        public T GetAddon<T>() where T: MPAddon
         {
-            this.addons.AddRange(addons);
-            Initialize(id, clientID, mine);
-        }
-
-        public virtual void Initialize(int id, int clientID = -1, bool mine = false, List<IMPAddon> addons = null)
-        {
-            this.addons.AddRange(addons);
-            Initialize(id, clientID, mine);
-        }
-
-        public virtual void Initialize(int id, int clientID = -1, bool mine = false)
-        {
-            this.id = id;
-            if (clientID >= 0)
-                this.clientID = clientID;
-            this.mine = mine;
-        }
-
-        public T GetAddon<T>()
-        {
-            foreach (IMPAddon addon in addons)
+            foreach (MPAddon addon in addons)
                 if (addon is T)
                     return (T)addon;
 
             return default(T);
         }
 
-        public bool HasAddon<T>()
+        public bool HasAddon<T>() where T : MPAddon
         {
-            foreach (IMPAddon addon in addons)
+            foreach (MPAddon addon in addons)
                 if (addon is T)
                     return true;
 

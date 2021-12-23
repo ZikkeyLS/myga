@@ -8,10 +8,21 @@ namespace MygaClient
 
         public static void ConnectEvents()
         {
+            ConnectBasicEvents();
+            ConnectModuleEvents()
+        }
+
+        private static void ConnectBasicEvents()
+        {
             ClientEventSystem.OnPackageRecieved(OnPackage);
             ClientEventSystem.OnPackageRecieved(OnIntroducePackage, "IntroducePackage");
             ClientEventSystem.OnPackageRecieved(OnErrorPackage, "ErrorPackage");
             ClientEventSystem.OnPackageRecieved(OnConnectPackage, "ConnectPackage");
+        }
+
+        private static void ConnectModuleEvents()
+        {
+            ClientEventSystem.OnPackageRecieved(OnTransformPackage, "TransformPackage");
         }
 
         public static void OnPackage(byte[] data)
@@ -51,6 +62,14 @@ namespace MygaClient
                         Debug.LogWarning($"Can't connect to server: {Client.serverIp}:{Client.serverPort}. Server is full!");
                         break;
                 }
+            }
+        }
+
+        public static void OnTransformPackage(byte[] data)
+        {
+            using (TransformPackage package = new TransformPackage(data))
+            {
+                // implement transform apply
             }
         }
     }
